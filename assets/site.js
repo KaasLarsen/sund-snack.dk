@@ -304,3 +304,157 @@
     window.location.href = "/?q=" + encodeURIComponent(q);
   });
 })();
+(() => {
+  // =============================
+  // Saved recipes (localStorage) + drawer
+  // =============================
+  const STORAGE_KEY = "ss_saved_v1";
+
+  const openBtn = document.getElementById("openSaved");
+  const drawer = document.getElementById("savedDrawer");
+  const backdrop = document.getElementById("savedBackdrop");
+  const closeBtn = document.getElementById("closeSaved");
+  const listEl = document.getElementById("savedList");
+  const emptyEl = document.getElementById("savedEmpty");
+
+  // På sider uden header-partial loaded endnu kan det være null → bare stop.
+  if (!openBtn || !drawer || !backdrop || !listEl || !emptyEl) return;
+
+  const norm = (s) => String(s || "").trim();
+
+  function readSaved(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function writeSaved(arr){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  function isSaved(url){
+    const u = norm(url);
+    return readSaved().some(x => x && norm(x.url) === u);
+  }
+
+  function addSaved(item){
+    const u = norm(item && item.url);
+    if (!u) return;
+
+    const list = readSaved();
+    if (list.some(x => x && norm(x.url) === u)) return;
+
+    // keep it tidy
+    const cleaned = {
+      title: norm(item.title) || "Opskrift",
+      url: u,
+      image: norm(item.image) || ""
+    };
+
+    list.unshift(cleaned);
+    writeSaved(list.slice(0, 200)); // cap
+  }
+
+  function removeSaved(url){
+    const u = norm(url);
+    const list = readSaved().filter(x => x && norm(x.url) !== u);
+    writeSaved(list);
+  }
+
+  function openDrawer(){
+    drawer.classList.add("is-open");
+    backdrop.hidden = false;
+    drawer.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("no-scroll");
+    render();
+  }
+
+  function closeDrawer(){
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("no-scroll");
+    window.setTimeout(() => { backdrop.hidden = true; }, 150);
+  }
+
+  function render(){
+    const list = readSaved();
+
+    if (!list.length){
+      listEl.innerHTML = "";
+      emptyEl.hidden = false;
+      return;
+    }
+
+    emptyEl.hidden = true;
+
+    listEl.innerHTML = list.map(item => `
+      <div class="saved-item">
+        <div class="saved-thumb" style="background-image:url('${item.image || ""}')"></div>
+        <a class="saved-link" href="${item.url}">${item.title || "Opskrift"}</a>
+        <button class="saved-remove" type="button" data-remove="${item.url}" aria-label="Fjern">✕</button>
+      </div>
+    `).join("");
+  }
+
+  // Open/close
+  openBtn.addEventListener("click", openDrawer);
+  closeBtn && closeBtn.addEventListener("click", closeDrawer);
+  backdrop.addEventListener("click", closeDrawer);
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && drawer.classList.contains("is-open")) closeDrawer();
+  });
+
+  // Remove
+  listEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-remove]");
+    if (!btn) return;
+    const url = btn.getAttribute("data-remove");
+    removeSaved(url);
+    render();
+
+    // Sync hearts on page
+    document.dispatchEvent(new CustomEvent("ss:saved-updated"));
+  });
+
+  // --------------------------------
+  // Hook for heart buttons on recipe pages
+  // Add a button with: data-save-recipe
+  // --------------------------------
+  function syncSaveButtons(){
+    const btns = Array.from(document.querySelectorAll("[data-save-recipe]"));
+    if (!btns.length) return;
+
+    btns.forEach(btn => {
+      const url = btn.getAttribute("data-url") || location.pathname;
+      const active = isSaved(url);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      btn.classList.toggle("is-saved", active);
+    });
+  }
+
+  document.addEventListener("ss:saved-updated", syncSaveButtons);
+
+  // Click handler for save buttons
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-save-recipe]");
+    if (!btn) return;
+
+    const item = {
+      title: btn.getAttribute("data-title") || document.title,
+      url: btn.getAttribute("data-url") || location.pathname,
+      image: btn.getAttribute("data-image") || ""
+    };
+
+    if (isSaved(item.url)) removeSaved(item.url);
+    else addSaved(item);
+
+    document.dispatchEvent(new CustomEvent("ss:saved-updated"));
+  });
+
+  // Initial sync
+  syncSaveButtons();
+})();
