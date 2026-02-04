@@ -226,32 +226,30 @@
   </main>
 
   <!-- Filters drawer -->
-  <div id="filtersDrawer" class="drawer" aria-hidden="true">
-    <div class="drawer-backdrop" data-close></div>
-    <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="Filtre">
-      <div class="drawer-head">
-        <h3 class="drawer-title">Filtre</h3>
-        <button class="drawer-close" type="button" data-close aria-label="Luk">✕</button>
-      </div>
+  <div id="filtersDrawer" class="filters" aria-hidden="true">
+  <div class="filters-backdrop" data-close></div>
 
-      <p class="muted">Vælg filtre og tryk “Anvend”. (Virker også selvom opskrifter.json er tom.)</p>
+  <aside class="filters-panel" role="dialog" aria-modal="true" aria-label="Filtre">
+    <div class="filters-head">
+      <h3 class="filters-title">Kategorier</h3>
+      <button class="filters-close" type="button" data-close aria-label="Luk">✕</button>
+    </div>
 
-      <div class="filter-group">
-        <span class="filter-label">Kategori</span>
-        <div class="chiprow" id="catChips"></div>
-      </div>
+    <div class="filters-body">
+      <div id="filtersCats" class="filters-list"></div>
 
-      <div class="filter-group">
-        <span class="filter-label">Tags</span>
-        <div class="chiprow" id="tagChips"></div>
-      </div>
+      <div class="filters-divider"></div>
 
-      <div class="drawer-actions">
-        <button id="resetFilters" class="btnx" type="button">Nulstil</button>
-        <button id="applyFilters" class="btnx btnx-primary" type="button">Anvend</button>
-      </div>
-    </aside>
-  </div>
+      <h4 class="filters-subtitle">Tags</h4>
+      <div id="filtersTags" class="filters-list"></div>
+    </div>
+
+    <div class="filters-footer">
+      <button id="resetFilters" class="filters-reset" type="button">Nulstil</button>
+      <button id="applyFilters" class="filters-apply" type="button">Anvend filtre</button>
+    </div>
+  </aside>
+</div>
 
   <div id="siteFooter"></div>
 
