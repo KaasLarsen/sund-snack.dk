@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Sund Snack – nemme sunde snacks, proteinrige bites & hverdagsidéer</title>
+  <meta name="description" content="Find sunde snacks og nemme opskrifter: proteinrige snacks, energikugler, wraps, dip, og hurtige idéer til hverdag. Søg direkte i headeren og få resultater med det samme." />
+  <link rel="canonical" href="https://www.sund-snack.dk/" />
+
+  <meta property="og:title" content="Sund Snack – sunde snacks & nemme opskrifter" />
+  <meta property="og:description" content="Søg blandt sunde opskrifter og få resultater på samme side. Perfekt til hverdag, træning og snacks." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.sund-snack.dk/" />
+  <meta property="og:image" content="https://www.sund-snack.dk/assets/images/hero.jpg" />
+
+  <meta name="theme-color" content="#16a34a" />
+  <link rel="stylesheet" href="/assets/styles.css" />
+
+  <!-- Analytics (GA4) – indsæt din Measurement ID og slå til når klar
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+  -->
+
+  <!-- Schema: Organization + WebSite med SearchAction (vigtigt for SEO) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"Organization",
+        "@id":"https://www.sund-snack.dk/#org",
+        "name":"Sund Snack",
+        "url":"https://www.sund-snack.dk/",
+        "logo":{
+          "@type":"ImageObject",
+          "url":"https://www.sund-snack.dk/assets/images/logo.png"
+        }
+      },
+      {
+        "@type":"WebSite",
+        "@id":"https://www.sund-snack.dk/#website",
+        "url":"https://www.sund-snack.dk/",
+        "name":"Sund Snack",
+        "publisher":{"@id":"https://www.sund-snack.dk/#org"},
+        "inLanguage":"da-DK",
+        "potentialAction":{
+          "@type":"SearchAction",
+          "target":"https://www.sund-snack.dk/?q={search_term_string}",
+          "query-input":"required name=search_term_string"
+        }
+      },
+      {
+        "@type":"WebPage",
+        "@id":"https://www.sund-snack.dk/#webpage",
+        "url":"https://www.sund-snack.dk/",
+        "name":"Sund Snack – sunde snacks & nemme opskrifter",
+        "isPartOf":{"@id":"https://www.sund-snack.dk/#website"},
+        "about":{"@id":"https://www.sund-snack.dk/#org"},
+        "inLanguage":"da-DK"
+      }
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Partial mount points -->
+  <div id="siteHeader"></div>
+
+  <main>
+    <!-- HERO (opsøgning + resultater på samme side) -->
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+
+      <div class="container hero-inner">
+        <div class="hero-card">
+          <p class="kicker">Sunde snacks • hurtige idéer • nemt i hverdagen</p>
+          <h1>Sund snack opskrifter – nemme idéer du faktisk får lavet</h1>
+          <p class="lead">
+            Søg blandt vores opskrifter og få resultater med det samme.
+            Perfekt til madpakken, træning, eftermiddagssult og “jeg skal have noget NU”-øjeblikke.
+          </p>
+
+          <div class="hero-search">
+            <label class="sr-only" for="q">Søg opskrifter</label>
+            <input id="q" type="search" placeholder="Søg fx: protein, energikugler, skyr, wrap, dip…" autocomplete="off" />
+            <button id="clearBtn" class="btn btn-ghost" type="button" title="Ryd søgning">Ryd</button>
+          </div>
+
+          <div class="chips" id="quickChips" aria-label="Hurtige søgninger">
+            <!-- fyldes af JS -->
+          </div>
+
+          <div class="hero-meta">
+            <span class="pill" id="countPill">Indlæser opskrifter…</span>
+            <span class="muted">Tip: Du kan dele en søgning: <code>?q=protein</code></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="resultsTitle">Opskrifter</h2>
+          <p class="muted" id="resultsHint">Søg i feltet ovenfor for at filtrere.</p>
+        </div>
+
+        <div id="recipesGrid" class="grid" aria-live="polite"></div>
+
+        <div id="emptyState" class="empty" hidden>
+          <h3>Ingen opskrifter matcher din søgning</h3>
+          <p class="muted">Prøv et andet søgeord – fx “skyr”, “wrap” eller “protein”.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script>
+    // -----------------------------
+    // Partials loader (header/footer)
+    // -----------------------------
+    async function loadPartial(mountId, url) {
+      const el = document.getElementById(mountId);
+      if (!el) return;
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        el.innerHTML = await res.text();
+      } catch (e) {
+        // hvis partial fejler, vil siden stadig virke
+        console.warn("Partial load failed:", url, e);
+      }
+    }
+
+    loadPartial("siteHeader", "/partials/header.html");
+    loadPartial("siteFooter", "/partials/footer.html");
+
+    // -----------------------------
+    // Recipe search on same page
+    // -----------------------------
+    const qs = (s, r=document) => r.querySelector(s);
+    const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
+
+    const input = qs("#q");
+    const clearBtn = qs("#clearBtn");
+    const grid = qs("#recipesGrid");
+    const emptyState = qs("#emptyState");
+    const countPill = qs("#countPill");
+    const resultsTitle = qs("#resultsTitle");
+    const resultsHint = qs("#resultsHint");
+    const quickChips = qs("#quickChips");
+
+    let ALL = [];
+
+    function normalize(s) {
+      return String(s || "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, " ");
+    }
+
+    function getQFromURL() {
+      const p = new URLSearchParams(location.search);
+      return p.get("q") || "";
+    }
+
+    function setQToURL(value) {
+      const url = new URL(location.href);
+      if (value) url.searchParams.set("q", value);
+      else url.searchParams.delete("q");
+      history.replaceState({}, "", url.toString());
+    }
+
+    function recipeToText(r) {
+      return normalize([
+        r.title,
+        r.description,
+        (r.categories || []).join(" "),
+        (r.tags || []).join(" ")
+      ].join(" "));
+    }
+
+    function renderCards(list) {
+      grid.innerHTML = list.map(r => {
+        const cats = (r.categories || []).slice(0, 3);
+        const meta = [
+          r.minutes ? `${r.minutes} min` : "",
+          r.level ? r.level : ""
+        ].filter(Boolean).join(" • ");
+
+        return `
+          <article class="card">
+            <a class="card-link" href="${r.url}">
+              <div class="thumb" style="background-image:url('${r.image}')"></div>
+              <div class="card-body">
+                <div class="card-top">
+                  ${meta ? `<p class="card-meta">${meta}</p>` : `<p class="card-meta muted"> </p>`}
+                  <h3 class="card-title">${r.title}</h3>
+                  <p class="card-desc">${r.description || ""}</p>
+                </div>
+                <div class="card-tags">
+                  ${cats.map(c => `<span class="tag">${c}</span>`).join("")}
+                </div>
+                <div class="card-cta">Se opskrift →</div>
+              </div>
+            </a>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function updateUI(query, filtered) {
+      const q = normalize(query);
+
+      if (!q) {
+        resultsTitle.textContent = "Opskrifter";
+        resultsHint.textContent = "Søg i feltet ovenfor for at filtrere.";
+      } else {
+        resultsTitle.textContent = `Søgeresultater for “${query}”`;
+        resultsHint.textContent = "Resultater opdateres live, mens du skriver.";
+      }
+
+      countPill.textContent = `${filtered.length} opskrift${filtered.length === 1 ? "" : "er"} • ${ALL.length} total`;
+
+      emptyState.hidden = filtered.length !== 0;
+      grid.hidden = filtered.length === 0;
+    }
+
+    function filterAndRender(query) {
+      const q = normalize(query);
+      setQToURL(query);
+
+      const filtered = !q
+        ? ALL
+        : ALL.filter(r => recipeToText(r).includes(q));
+
+      renderCards(filtered);
+      updateUI(query, filtered);
+    }
+
+    function buildChips() {
+      const chips = [
+        "protein",
+        "skyr",
+        "energi",
+        "wrap",
+        "dip",
+        "glutenfri",
+        "uden sukker"
+      ];
+
+      quickChips.innerHTML = chips.map(t => `
+        <button class="chip" type="button" data-q="${t}">${t}</button>
+      `).join("");
+
+      quickChips.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-q]");
+        if (!btn) return;
+        const val = btn.getAttribute("data-q") || "";
+        input.value = val;
+        filterAndRender(val);
+        input.focus();
+      });
+    }
+
+    async function init() {
+      buildChips();
+
+      try {
+        const res = await fetch("/assets/opskrifter.json", { cache: "no-store" });
+        const data = await res.json();
+        ALL = Array.isArray(data) ? data : (data.recipes || []);
+      } catch (e) {
+        ALL = [];
+        console.warn("Kunne ikke hente /assets/opskrifter.json", e);
+      }
+
+      const initialQ = getQFromURL();
+      if (initialQ) input.value = initialQ;
+
+      filterAndRender(input.value);
+
+      input.addEventListener("input", () => filterAndRender(input.value));
+      clearBtn.addEventListener("click", () => {
+        input.value = "";
+        filterAndRender("");
+        input.focus();
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
