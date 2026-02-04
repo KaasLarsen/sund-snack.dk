@@ -745,3 +745,53 @@ code{
   #mobileNavDrawer{ display:block; }
   #mobileNavBackdrop{ display:block; }
 }
+/* ===== Header search overlay (Opskrift-Airfryer vibe) ===== */
+.header-search{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: rgba(255,255,255,.98);
+  border-bottom: 1px solid rgba(0,0,0,.10);
+  box-shadow: 0 10px 28px rgba(0,0,0,.10);
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform .18s ease, opacity .18s ease;
+}
+
+.site-header{ position: sticky; top: 0; z-index: 60; }
+
+.header-search.is-open{
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.header-search-inner{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+}
+
+.header-search input{
+  flex: 1;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.12);
+  padding: 0 16px;
+  font-size: 1.05rem;
+  background: #fff;
+}
+
+.header-search-close{
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.12);
+  background: #fff;
+  cursor: pointer;
+  font-weight: 900;
+}
+.header-search-close:hover{ background: rgba(0,0,0,.04); }
