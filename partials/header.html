@@ -5,14 +5,47 @@
       <span class="brand-text">sund-snack.dk</span>
     </a>
 
-    <nav class="nav">
+    <!-- Desktop nav -->
+    <nav class="nav nav--desktop" aria-label="Primær navigation">
       <a href="/" class="nav-link">Forside</a>
       <a href="/opskrifter/" class="nav-link" title="(kommer snart)">Opskrifter</a>
       <a href="/om/" class="nav-link" title="(kommer snart)">Om</a>
     </nav>
 
     <div class="header-actions">
-      <a class="btn btn-small btn-outline" href="/?q=protein">Søg protein</a>
+      <a class="btn btn-small btn-outline header-cta" href="/?q=protein">Søg protein</a>
+
+      <!-- Mobile burger button (kun mobil via CSS) -->
+      <button class="icon-btn burger-btn" type="button"
+        aria-label="Åbn menu"
+        aria-controls="mobileNavDrawer"
+        aria-expanded="false">
+        <span class="burger" aria-hidden="true"></span>
+      </button>
     </div>
   </div>
+
+  <!-- Mobile nav drawer -->
+  <div class="drawer-backdrop" id="mobileNavBackdrop" hidden></div>
+
+  <aside class="drawer" id="mobileNavDrawer" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-header">
+        <div class="drawer-title">Menu</div>
+        <button class="icon-btn drawer-close" type="button" aria-label="Luk menu">
+          <span aria-hidden="true">✕</span>
+        </button>
+      </div>
+
+      <nav class="drawer-nav" aria-label="Mobil navigation">
+        <a href="/" class="drawer-link">Forside</a>
+        <a href="/opskrifter/" class="drawer-link">Opskrifter</a>
+        <a href="/om/" class="drawer-link">Om</a>
+      </nav>
+
+      <div class="drawer-actions">
+        <a class="btn btn-outline" href="/?q=protein">Søg protein</a>
+      </div>
+    </div>
+  </aside>
 </header>
