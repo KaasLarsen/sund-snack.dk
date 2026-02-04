@@ -473,3 +473,108 @@ code{
 /* Open state */
 .drawer.is-open{ transform: translateX(0); }
 .drawer-backdrop.is-open{ display:block; }
+/* ===== Hero (Opskrift-Airfryer look) ===== */
+.hero--full{
+  position:relative;
+  height: 520px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.hero-media{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transform: scale(1.02);
+}
+
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.45));
+}
+
+.hero-content{
+  position:relative;
+  text-align:center;
+  color:#fff;
+  padding: 0 1rem;
+}
+
+.hero-title{
+  margin:0 0 10px;
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.hero-subtitle{
+  margin:0 0 22px;
+  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  opacity: .92;
+  font-weight: 600;
+}
+
+.hero-searchbar{
+  width: min(860px, 100%);
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 999px;
+  display:flex;
+  align-items:center;
+  padding: 10px 14px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.25);
+}
+
+.hero-searchbar input{
+  flex:1;
+  border:0;
+  outline:0;
+  height: 56px;
+  font-size: 1.05rem;
+  padding: 0 12px 0 12px;
+  border-radius: 999px;
+}
+
+.hero-searchbtn{
+  width: 56px;
+  height: 56px;
+  border:0;
+  border-radius: 999px;
+  background: transparent;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  color: rgba(0,0,0,.7);
+}
+
+.hero-searchbtn svg{
+  width: 22px;
+  height: 22px;
+}
+
+.hero-filterbtn{
+  margin-top: 18px;
+  background: rgba(0,0,0,.35);
+  color:#fff;
+  border: 1px solid rgba(255,255,255,.35);
+  border-radius: 999px;
+  padding: .55rem .95rem;
+  font-weight: 800;
+  cursor:pointer;
+}
+
+.hero-filterbtn:hover{
+  background: rgba(0,0,0,.45);
+}
+
+@media (max-width: 640px){
+  .hero--full{ height: 480px; }
+  .hero-searchbar{ padding: 8px 10px; }
+  .hero-searchbar input{ height: 52px; font-size: 1rem; }
+  .hero-searchbtn{ width:52px; height:52px; }
+}
