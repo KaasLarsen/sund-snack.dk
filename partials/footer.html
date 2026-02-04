@@ -1,0 +1,25 @@
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div>
+      <p class="footer-title">Sund Snack</p>
+      <p class="muted">Nemme, sunde snack-opskrifter – bygget til hurtig søgning og god SEO.</p>
+    </div>
+
+    <div class="footer-links">
+      <a href="/kontakt/" title="(kommer snart)">Kontakt</a>
+      <a href="/privatliv/" title="(kommer snart)">Privatliv</a>
+      <a href="/cookies/" title="(kommer snart)">Cookies</a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="muted">© <span id="y"></span> sund-snack.dk</p>
+  </div>
+
+  <script>
+    (function(){ 
+      var el = document.getElementById("y"); 
+      if (el) el.textContent = String(new Date().getFullYear());
+    })();
+  </script>
+</footer>
