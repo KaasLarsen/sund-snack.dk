@@ -696,3 +696,36 @@ code{
 
 .filters-apply:hover{ filter:brightness(.96); }
 .filters-reset:hover{ background:rgba(0,0,0,.04); }
+.brand-text{
+  font-weight: 900;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+  color: #111;
+  text-decoration: none;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.icon-btn{
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  color:#111;
+}
+
+.icon-btn svg{
+  width:20px;
+  height:20px;
+}
+
+.icon-btn:hover{
+  background:rgba(0,0,0,.04);
+}
