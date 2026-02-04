@@ -583,3 +583,116 @@ code{
   width: auto;
   display:block;
 }
+/* ===== Pæn filtre drawer (airfryer-look) ===== */
+.filters{ position:fixed; inset:0; z-index:100; display:none; }
+.filters[aria-hidden="false"]{ display:block; }
+
+.filters-backdrop{ position:absolute; inset:0; background:rgba(0,0,0,.35); }
+
+.filters-panel{
+  position:absolute;
+  top:0; right:0;
+  height:100%;
+  width:min(520px, 92vw);
+  background:#fff;
+  box-shadow:-24px 0 70px rgba(0,0,0,.18);
+  display:flex;
+  flex-direction:column;
+}
+
+.filters-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 18px 12px;
+  border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.filters-title{
+  margin:0;
+  font-size:1.35rem;
+  font-weight:900;
+  letter-spacing:-.01em;
+}
+
+.filters-close{
+  width:44px; height:44px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.10);
+  background:#fff;
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+}
+
+.filters-body{
+  padding:14px 18px 18px;
+  overflow:auto;
+}
+
+.filters-subtitle{
+  margin:0 0 10px;
+  font-size:1.05rem;
+  font-weight:900;
+  letter-spacing:-.01em;
+}
+
+.filters-divider{
+  height:1px;
+  background:rgba(0,0,0,.08);
+  margin:16px 0;
+}
+
+.filters-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.filters-item{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  color:rgba(0,0,0,.86);
+  padding:6px 2px;
+}
+
+.filters-item input{
+  width:18px; height:18px;
+  accent-color:#111;
+}
+
+.filters-footer{
+  position:sticky;
+  bottom:0;
+  padding:14px 18px 18px;
+  border-top:1px solid rgba(0,0,0,.08);
+  background:#fff;
+  display:flex;
+  gap:12px;
+}
+
+.filters-reset{
+  flex:1;
+  height:56px;
+  border-radius:999px;
+  border:1px solid rgba(0,0,0,.12);
+  background:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.filters-apply{
+  flex:2;
+  height:56px;
+  border-radius:999px;
+  border:0;
+  background:#111;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.filters-apply:hover{ filter:brightness(.96); }
+.filters-reset:hover{ background:rgba(0,0,0,.04); }
