@@ -330,3 +330,146 @@ code{
   margin-top: 14px;
   border-top:1px solid var(--line);
 }
+/* --- Header: mobil/desktop switch --- */
+.nav--desktop { display: flex; gap: 14px; align-items: center; }
+.burger-btn { display: none; }
+
+@media (max-width: 720px){
+  .nav--desktop { display: none; }
+  .burger-btn { display: inline-flex; }
+  .header-cta { display: none; } /* valgfrit: skjul CTA på mobil */
+}
+
+/* --- Icon button --- */
+.icon-btn{
+  width:44px;height:44px;
+  border:1px solid rgba(0,0,0,.10);
+  background:#fff;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  cursor:pointer;
+}
+
+/* --- Burger icon --- */
+.burger{
+  width:18px;height:12px; position:relative; display:block;
+}
+.burger::before,.burger::after,.burger span{
+  content:"";
+  position:absolute; left:0; right:0;
+  height:2px; border-radius:2px;
+  background: currentColor;
+}
+.burger::before{ top:0; }
+.burger::after{ bottom:0; }
+.burger span{ top:5px; }
+
+/* (Vi bruger kun pseudo-linjer, så vi simulerer midterlinjen sådan her) */
+.burger{ color:#111; }
+.burger::before,.burger::after{ background:#111; }
+.burger{ }
+.burger::before{ }
+.burger::after{ }
+.burger::after{ }
+.burger::before{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+
+/* Midterlinjen */
+.burger{ }
+.burger::before,.burger::after{ }
+.burger::before{ }
+.burger::after{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+.burger{ }
+
+/* Læg midterlinjen ind via box-shadow trick */
+.burger::before{ box-shadow: 0 5px 0 #111; }
+
+/* --- Drawer + backdrop --- */
+.drawer-backdrop{
+  position:fixed; inset:0;
+  background: rgba(0,0,0,.35);
+  backdrop-filter: blur(2px);
+  z-index: 9998;
+}
+
+.drawer{
+  position:fixed;
+  top:0; right:0;
+  width:min(360px, 92vw);
+  height:100vh;
+  background:#fff;
+  z-index: 9999;
+  transform: translateX(102%);
+  transition: transform .22s ease;
+  box-shadow: -18px 0 40px rgba(0,0,0,.14);
+  border-left: 1px solid rgba(0,0,0,.08);
+}
+
+.drawer-inner{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  padding:16px;
+  gap:16px;
+}
+
+.drawer-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.drawer-title{
+  font-weight:700;
+  font-size:1.05rem;
+}
+
+.drawer-nav{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.drawer-link{
+  padding:12px 12px;
+  border-radius:12px;
+  text-decoration:none;
+  color:inherit;
+  border:1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.02);
+}
+
+.drawer-actions{
+  margin-top:auto;
+  padding-top:10px;
+  border-top:1px solid rgba(0,0,0,.08);
+}
+
+/* Open state */
+.drawer.is-open{ transform: translateX(0); }
+.drawer-backdrop.is-open{ display:block; }
