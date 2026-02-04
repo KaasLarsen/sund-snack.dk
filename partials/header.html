@@ -32,8 +32,12 @@
         </svg>
       </button>
 
-      <!-- Heart / gemte -->
-      <a class="icon-btn" href="/gemte/" aria-label="Gemte opskrifter">
+      <!-- Saved recipes (heart) -->
+      <button
+        class="icon-btn"
+        type="button"
+        id="openSaved"
+        aria-label="Gemte opskrifter">
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path
             d="M12 21s-7-4.35-9.33-8.03C.5 9.5 2.28 5.5 6.5 5.5c2.03 0 3.57 1.1 4.5 2.2 0.93-1.1 2.47-2.2 4.5-2.2 4.22 0 6 4 3.83 7.47C19 16.65 12 21 12 21z"
@@ -42,7 +46,7 @@
             stroke-width="2"
             stroke-linejoin="round"/>
         </svg>
-      </a>
+      </button>
 
       <!-- Burger (kun mobil) -->
       <button
@@ -77,6 +81,32 @@
     </div>
   </div>
 
+  <!-- Saved recipes backdrop -->
+  <div class="saved-backdrop" id="savedBackdrop" hidden></div>
+
+  <!-- Saved recipes drawer -->
+  <aside class="saved-drawer" id="savedDrawer" aria-hidden="true">
+    <div class="saved-inner">
+      <div class="saved-head">
+        <h3 class="saved-title">Gemte opskrifter</h3>
+        <button
+          class="saved-close"
+          type="button"
+          id="closeSaved"
+          aria-label="Luk">
+          ✕
+        </button>
+      </div>
+
+      <div class="saved-list" id="savedList"></div>
+
+      <div class="saved-empty" id="savedEmpty" hidden>
+        <p><strong>Ingen gemte opskrifter endnu.</strong></p>
+        <p>Tryk på hjertet på en opskrift for at gemme den.</p>
+      </div>
+    </div>
+  </aside>
+
   <!-- Mobile nav drawer -->
   <div class="drawer-backdrop" id="mobileNavBackdrop" hidden></div>
 
@@ -84,7 +114,10 @@
     <div class="drawer-inner">
       <div class="drawer-header">
         <div class="drawer-title">Menu</div>
-        <button class="icon-btn drawer-close" type="button" aria-label="Luk menu">
+        <button
+          class="icon-btn drawer-close"
+          type="button"
+          aria-label="Luk menu">
           <span aria-hidden="true">✕</span>
         </button>
       </div>
