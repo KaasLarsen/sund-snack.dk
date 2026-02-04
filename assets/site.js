@@ -458,3 +458,216 @@
   // Initial sync
   syncSaveButtons();
 })();
+(() => {
+  // =============================
+  // Header UI (works with partials loaded after JS)
+  // - Search overlay
+  // - Saved drawer (localStorage)
+  // - Badge counter
+  // =============================
+  const STORAGE_KEY = "ss_saved_v1";
+  const norm = (s) => String(s || "").trim();
+
+  function readSaved(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch {
+      return [];
+    }
+  }
+  function writeSaved(arr){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+  function isSaved(url){
+    const u = norm(url);
+    return readSaved().some(x => x && norm(x.url) === u);
+  }
+  function addSaved(item){
+    const u = norm(item && item.url);
+    if (!u) return;
+
+    const list = readSaved();
+    if (list.some(x => x && norm(x.url) === u)) return;
+
+    list.unshift({
+      title: norm(item.title) || "Opskrift",
+      url: u,
+      image: norm(item.image) || ""
+    });
+
+    writeSaved(list.slice(0, 200));
+  }
+  function removeSaved(url){
+    const u = norm(url);
+    const list = readSaved().filter(x => x && norm(x.url) !== u);
+    writeSaved(list);
+  }
+
+  function updateBadge(){
+    const badge = document.getElementById("savedBadge");
+    if (!badge) return;
+    const n = readSaved().length;
+    badge.textContent = String(n);
+    badge.hidden = n === 0;
+  }
+
+  // ---- Search overlay helpers ----
+  function openHeaderSearch(){
+    const wrap = document.getElementById("headerSearch");
+    const input = document.getElementById("globalSearchInput");
+    if (!wrap || !input) return;
+
+    wrap.classList.add("is-open");
+    wrap.setAttribute("aria-hidden", "false");
+    setTimeout(() => input.focus(), 30);
+  }
+  function closeHeaderSearch(){
+    const wrap = document.getElementById("headerSearch");
+    if (!wrap) return;
+
+    wrap.classList.remove("is-open");
+    wrap.setAttribute("aria-hidden", "true");
+  }
+
+  // ---- Saved drawer helpers ----
+  function renderSaved(){
+    const listEl = document.getElementById("savedList");
+    const emptyEl = document.getElementById("savedEmpty");
+    if (!listEl || !emptyEl) return;
+
+    const list = readSaved();
+    if (!list.length){
+      listEl.innerHTML = "";
+      emptyEl.hidden = false;
+      updateBadge();
+      return;
+    }
+
+    emptyEl.hidden = true;
+    listEl.innerHTML = list.map(item => `
+      <div class="saved-item">
+        <div class="saved-thumb" style="background-image:url('${item.image || ""}')"></div>
+        <a class="saved-link" href="${item.url}">${item.title || "Opskrift"}</a>
+        <button class="saved-remove" type="button" data-remove="${item.url}" aria-label="Fjern">✕</button>
+      </div>
+    `).join("");
+
+    updateBadge();
+  }
+
+  function openSaved(){
+    const drawer = document.getElementById("savedDrawer");
+    const backdrop = document.getElementById("savedBackdrop");
+    if (!drawer || !backdrop) return;
+
+    drawer.classList.add("is-open");
+    backdrop.hidden = false;
+    drawer.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("no-scroll");
+    renderSaved();
+  }
+
+  function closeSaved(){
+    const drawer = document.getElementById("savedDrawer");
+    const backdrop = document.getElementById("savedBackdrop");
+    if (!drawer || !backdrop) return;
+
+    drawer.classList.remove("is-open");
+    drawer.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("no-scroll");
+    setTimeout(() => { backdrop.hidden = true; }, 150);
+  }
+
+  // ---- Save button sync on recipe pages ----
+  function syncSaveButtons(){
+    const btns = Array.from(document.querySelectorAll("[data-save-recipe]"));
+    if (!btns.length) return;
+    btns.forEach(btn => {
+      const url = btn.getAttribute("data-url") || location.pathname;
+      const active = isSaved(url);
+      btn.setAttribute("aria-pressed", active ? "true" : "false");
+      btn.classList.toggle("is-saved", active);
+    });
+  }
+
+  // Global click handler (works even when header is injected later)
+  document.addEventListener("click", (e) => {
+    // Search open
+    if (e.target.closest("#openHeaderSearch")) {
+      openHeaderSearch();
+      return;
+    }
+    // Search close
+    if (e.target.closest("#closeHeaderSearch")) {
+      closeHeaderSearch();
+      return;
+    }
+
+    // Saved open
+    if (e.target.closest("#openSaved")) {
+      openSaved();
+      return;
+    }
+    // Saved close
+    if (e.target.closest("#closeSaved") || e.target.closest("#savedBackdrop")) {
+      closeSaved();
+      return;
+    }
+
+    // Remove saved item
+    const rem = e.target.closest("[data-remove]");
+    if (rem) {
+      removeSaved(rem.getAttribute("data-remove"));
+      renderSaved();
+      syncSaveButtons();
+      return;
+    }
+
+    // Toggle save button on recipe pages
+    const saveBtn = e.target.closest("[data-save-recipe]");
+    if (saveBtn) {
+      const item = {
+        title: saveBtn.getAttribute("data-title") || document.title,
+        url: saveBtn.getAttribute("data-url") || location.pathname,
+        image: saveBtn.getAttribute("data-image") || ""
+      };
+
+      if (isSaved(item.url)) removeSaved(item.url);
+      else addSaved(item);
+
+      updateBadge();
+      syncSaveButtons();
+      return;
+    }
+  });
+
+  // Enter in header search input -> send to search.html
+  document.addEventListener("keydown", (e) => {
+    // ESC closes overlays
+    if (e.key === "Escape") {
+      closeHeaderSearch();
+      closeSaved();
+      return;
+    }
+
+    const input = document.getElementById("globalSearchInput");
+    if (!input) return;
+
+    if (e.key === "Enter" && document.activeElement === input) {
+      const q = (input.value || "").trim();
+      if (!q) return;
+      window.location.href = "/search.html?q=" + encodeURIComponent(q);
+    }
+  });
+
+  // Run once (badge + sync on load)
+  updateBadge();
+  syncSaveButtons();
+
+  // If header loads later, this still keeps badge correct (safe)
+  // Small timer to catch first partial insert
+  setTimeout(updateBadge, 250);
+  setTimeout(updateBadge, 1000);
+})();
