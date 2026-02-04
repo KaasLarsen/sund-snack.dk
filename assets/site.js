@@ -258,3 +258,49 @@
     filterAndRender(input ? input.value : "");
   })();
 })();
+(() => {
+  // =============================
+  // Header Search Overlay
+  // =============================
+  const openBtn = document.getElementById("openHeaderSearch");
+  const wrap = document.getElementById("headerSearch");
+  const input = document.getElementById("globalSearchInput");
+  const closeBtn = document.getElementById("closeHeaderSearch");
+
+  if (!openBtn || !wrap || !input) return;
+
+  function open(){
+    wrap.classList.add("is-open");
+    wrap.setAttribute("aria-hidden", "false");
+    document.documentElement.classList.add("no-scroll"); // valgfrit, kan fjernes
+    window.setTimeout(() => input.focus(), 30);
+  }
+
+  function close(){
+    wrap.classList.remove("is-open");
+    wrap.setAttribute("aria-hidden", "true");
+    document.documentElement.classList.remove("no-scroll");
+  }
+
+  openBtn.addEventListener("click", () => {
+    const isOpen = wrap.classList.contains("is-open");
+    isOpen ? close() : open();
+  });
+
+  closeBtn && closeBtn.addEventListener("click", close);
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && wrap.classList.contains("is-open")) close();
+  });
+
+  // "Virker" søgning: send brugeren til forsiden med query,
+  // så index kan vise resultater på samme side (som I allerede har).
+  input.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    const q = (input.value || "").trim();
+    if (!q) return;
+
+    // Send til forsiden med q=...
+    window.location.href = "/?q=" + encodeURIComponent(q);
+  });
+})();
