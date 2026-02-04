@@ -729,3 +729,19 @@ code{
 .icon-btn:hover{
   background:rgba(0,0,0,.04);
 }
+/* === Desktop/Mobil: hvad vises hvornår === */
+
+/* Desktop default */
+.nav--desktop{ display:flex; }
+.burger-btn{ display:none; }            /* skjul burger på desktop */
+#mobileNavDrawer{ display:none; }       /* drawer findes, men vises ikke som block på desktop */
+#mobileNavBackdrop{ display:none; }     /* backdrop ikke på desktop */
+
+/* Mobil */
+@media (max-width: 820px){
+  .nav--desktop{ display:none; }        /* skjul desktop-menu */
+  .burger-btn{ display:grid; }          /* vis burger */
+  /* drawer/backdrop styres af JS + classes/hidden, så her skal vi kun sikre de kan vises */
+  #mobileNavDrawer{ display:block; }
+  #mobileNavBackdrop{ display:block; }
+}
