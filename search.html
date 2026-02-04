@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Søg – Sund Snack</title>
+  <meta name="description" content="Søg på sund-snack.dk blandt opskrifter og guides. Find nemme sunde snacks, proteinrige idéer og hverdagsinspiration." />
+  <link rel="canonical" href="https://www.sund-snack.dk/search.html" />
+
+  <meta name="robots" content="index,follow" />
+
+  <link rel="stylesheet" href="/assets/styles.css" />
+  <script src="/assets/site.js" defer></script>
+
+  <!-- Schema: WebPage -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "@id":"https://www.sund-snack.dk/search.html#webpage",
+    "url":"https://www.sund-snack.dk/search.html",
+    "name":"Søg – Sund Snack",
+    "inLanguage":"da-DK",
+    "isPartOf":{"@id":"https://www.sund-snack.dk/#website"}
+  }
+  </script>
+
+  <style>
+    /* Search page (holder sig tæt på jeres card/UI) */
+    .page{ padding: 22px 0 56px; }
+    .page-head{ display:flex; flex-direction:column; gap:10px; margin-bottom: 14px; }
+    .page-title{ margin:0; font-size:1.55rem; font-weight: 900; letter-spacing:-.02em; }
+    .page-sub{ margin:0; color: rgba(11,18,32,.68); font-weight: 600; }
+
+    .searchbar{
+      display:flex; gap:10px; align-items:center;
+      background:#fff;
+      border:1px solid rgba(11,18,32,.12);
+      border-radius: 18px;
+      padding: 10px 12px;
+      box-shadow: 0 10px 28px rgba(11,18,32,.08);
+      width: min(860px, 100%);
+    }
+    .searchbar input{
+      flex:1;
+      border:0;
+      outline:0;
+      height:52px;
+      font-size:1.05rem;
+      padding: 0 10px;
+      background: transparent;
+    }
+    .searchbar button{
+      width:52px; height:52px;
+      border-radius: 14px;
+      border:1px solid rgba(11,18,32,.12);
+      background:#fff;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      color:#111;
+    }
+    .searchbar button:hover{ background: rgba(0,0,0,.04); }
+    .searchbar svg{ width:20px; height:20px; }
+
+    .meta-row{
+      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+      margin-top: 10px;
+      color: rgba(11,18,32,.65);
+      font-weight: 700;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: .45rem .7rem;
+      border-radius: 999px;
+      border:1px solid rgba(11,18,32,.12);
+      background: rgba(11,18,32,.03);
+      font-weight: 800;
+    }
+    .pill strong{ color:#111; }
+
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+    @media (max-width: 980px){ .grid{ grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px){ .grid{ grid-template-columns: 1fr; } }
+
+    .card{
+      background:#fff;
+      border:1px solid rgba(11,18,32,.10);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 6px 18px rgba(11,18,32,.08);
+      transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+    }
+    .card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(22,163,74,.25);
+      box-shadow:0 14px 34px rgba(11,18,32,.10);
+    }
+    .card-link{ display:block; height:100%; text-decoration:none; color:inherit; }
+
+    .thumb{ height:160px; background-size:cover; background-position:center; background-color:rgba(11,18,32,.05); }
+    .card-body{ padding:14px; display:flex; flex-direction:column; height:calc(100% - 160px); }
+    .card-meta{ margin:0 0 8px; font-weight: 900; font-size:.85rem; color: rgba(11,18,32,.60); }
+    .card-title{ margin:0 0 8px; font-size:1.05rem; line-height:1.22; letter-spacing:-.01em; }
+    .card-desc{ margin:0 0 12px; color: rgba(11,18,32,.70); font-weight: 600; flex:1; }
+
+    .type-tag{
+      display:inline-flex;
+      padding:.28rem .55rem;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(0,0,0,.04);
+      font-weight: 900;
+      font-size:.8rem;
+    }
+    .type-opskrift{
+      border-color: rgba(22,163,74,.18);
+      background: rgba(22,163,74,.08);
+    }
+    .type-guide{
+      border-color: rgba(37,99,235,.18);
+      background: rgba(37,99,235,.08);
+    }
+
+    .card-tags{ display:flex; flex-wrap:wrap; gap:6px; margin-bottom: 10px; }
+    .tag{ display:inline-flex; padding:.28rem .55rem; border-radius:999px; border:1px solid rgba(22,163,74,.18); background: rgba(22,163,74,.08); font-weight: 900; font-size:.8rem; }
+
+    .card-cta{ font-weight: 900; color: rgba(22,163,74,.95); }
+
+    .empty{
+      margin-top: 16px;
+      padding: 22px;
+      border:1px dashed rgba(11,18,32,.18);
+      border-radius: 18px;
+      background: rgba(11,18,32,.02);
+    }
+    .empty h3{ margin:0 0 6px; }
+    .sr-only{
+      position:absolute !important;
+      width:1px;height:1px;
+      padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0,0,0,0);
+      white-space:nowrap;border:0;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="page">
+    <div class="container">
+      <header class="page-head">
+        <h1 class="page-title">Søg</h1>
+        <p class="page-sub">Søg på sund-snack.dk blandt opskrifter og guides.</p>
+
+        <form class="searchbar" role="search" id="searchForm">
+          <label class="sr-only" for="q">Søg</label>
+          <input id="q" type="search" placeholder="Søg efter opskrifter og guides…" autocomplete="off" />
+          <button type="submit" aria-label="Søg">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm11 3-6.1-6.1"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </form>
+
+        <div class="meta-row">
+          <span class="pill">Resultater: <strong id="count">0</strong></span>
+          <span class="pill">Søger i: <strong>opskrifter + guides</strong></span>
+        </div>
+      </header>
+
+      <div id="resultsGrid" class="grid" aria-live="polite"></div>
+
+      <div id="emptyState" class="empty" hidden>
+        <h3>Ingen resultater</h3>
+        <p class="page-sub">Prøv et andet søgeord – fx “protein”, “skyr”, “overnight” eller “wrap”.</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script>
+    // Partials
+    async function loadPartial(mountId, url) {
+      const el = document.getElementById(mountId);
+      if (!el) return;
+      try {
+        const res = await fetch(url, { cache: "no-store" });
+        el.innerHTML = await res.text();
+      } catch (e) {}
+    }
+    loadPartial("siteHeader", "/partials/header.html");
+    loadPartial("siteFooter", "/partials/footer.html");
+
+    // Search
+    const qs = (s, r=document) => r.querySelector(s);
+    const norm = (s) => String(s || "").toLowerCase().trim().replace(/\s+/g, " ");
+
+    const input = qs("#q");
+    const form = qs("#searchForm");
+    const grid = qs("#resultsGrid");
+    const emptyState = qs("#emptyState");
+    const countEl = qs("#count");
+
+    let INDEX = [];
+
+    function getQFromURL(){
+      const p = new URLSearchParams(location.search);
+      return p.get("q") || "";
+    }
+
+    function setQToURL(value){
+      const url = new URL(location.href);
+      if (value) url.searchParams.set("q", value);
+      else url.searchParams.delete("q");
+      history.replaceState({}, "", url.toString());
+    }
+
+    function toDoc(item, type){
+      // Normaliser felter for både opskrifter og guides
+      // forventer: title, url, image, description, categories, tags
+      return {
+        type,
+        title: item.title || item.name || "",
+        url: item.url || item.href || "#",
+        image: item.image || "",
+        description: item.description || item.excerpt || "",
+        categories: Array.isArray(item.categories) ? item.categories : [],
+        tags: Array.isArray(item.tags) ? item.tags : [],
+        // søgetekst
+        text: norm([
+          item.title, item.name,
+          item.description, item.excerpt,
+          (item.categories||[]).join(" "),
+          (item.tags||[]).join(" ")
+        ].join(" "))
+      };
+    }
+
+    async function loadJSON(path){
+      try{
+        const res = await fetch(path, { cache: "no-store" });
+        if (!res.ok) return [];
+        const data = await res.json();
+        const arr = Array.isArray(data) ? data : (data.items || data.guides || data.opskrifter || []);
+        return Array.isArray(arr) ? arr : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function render(list){
+      grid.innerHTML = list.map(d => {
+        const typeClass = d.type === "guide" ? "type-guide" : "type-opskrift";
+        const typeLabel = d.type === "guide" ? "Guide" : "Opskrift";
+        const chips = (d.categories || []).slice(0, 3);
+
+        return `
+          <article class="card">
+            <a class="card-link" href="${d.url}">
+              <div class="thumb" style="background-image:url('${d.image || ""}')"></div>
+              <div class="card-body">
+                <p class="card-meta">
+                  <span class="type-tag ${typeClass}">${typeLabel}</span>
+                </p>
+                <h3 class="card-title">${d.title || "Resultat"}</h3>
+                <p class="card-desc">${d.description || ""}</p>
+                <div class="card-tags">
+                  ${chips.map(c => `<span class="tag">${c}</span>`).join("")}
+                </div>
+                <div class="card-cta">Åbn →</div>
+              </div>
+            </a>
+          </article>
+        `;
+      }).join("");
+
+      const n = list.length;
+      countEl.textContent = String(n);
+      emptyState.hidden = n !== 0;
+      grid.hidden = n === 0;
+    }
+
+    function runSearch(query){
+      const q = norm(query);
+      setQToURL(query);
+
+      if (!q){
+        render([]);
+        return;
+      }
+
+      const hits = INDEX.filter(d => d.text.includes(q));
+      render(hits);
+    }
+
+    (async () => {
+      // load data
+      const [recipesRaw, guidesRaw] = await Promise.all([
+        loadJSON("/assets/opskrifter.json"),
+        loadJSON("/assets/guides.json")
+      ]);
+
+      const recipes = recipesRaw.map(x => toDoc(x, "opskrift"));
+      const guides = guidesRaw.map(x => toDoc(x, "guide"));
+
+      INDEX = [...recipes, ...guides];
+
+      // initial query
+      const initial = getQFromURL();
+      if (initial) input.value = initial;
+
+      runSearch(input.value);
+
+      // events
+      input.addEventListener("input", () => runSearch(input.value));
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        runSearch(input.value);
+      });
+
+      // autofocus
+      input.focus();
+    })();
+  </script>
+</body>
+</html>
