@@ -25,5 +25,32 @@
       "carbohydrates": 8,
       "fat": 4
     }
+  },
+  {
+    "id": "bananpandekager",
+    "title": "Bananpandekager",
+    "url": "/opskrifter/bananpandekager.html",
+    "image": "/assets/images/recipes/bananpandekager-768x768.jpg",
+    "description": "Bananpandekager med æg og havre – en nem, sund og mættende snack klar på 10 minutter. Perfekt til morgenmad, madpakke eller efter træning.",
+    "categories": [
+      "snacks",
+      "sunde snacks",
+      "pandekager"
+    ],
+    "tags": [
+      "banan",
+      "pandekager",
+      "hurtig snack",
+      "uden mel",
+      "morgenmad"
+    ],
+    "minutes": 10,
+    "level": "Nem",
+    "nutrition": {
+      "calories": 90,
+      "protein": 4,
+      "carbohydrates": 12,
+      "fat": 3
+    }
   }
 ]
