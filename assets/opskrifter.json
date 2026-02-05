@@ -1,10 +1,29 @@
 [
   {
-    "title": "Proteinrige energikugler",
-    "url": "/opskrifter/protein-energikugler/",
-    "image": "/assets/images/recipes/protein-energikugler-768.jpg",
-    "description": "Nemme energikugler med skyr og havre.",
-    "categories": ["snacks"],
-    "tags": ["protein", "hurtig"]
+    "id": "proteinrige-energikugler",
+    "title": "Proteinrige Energikugler",
+    "url": "/opskrifter/proteinrige-energikugler.html",
+    "image": "/assets/images/recipes/proteinrige-energikugler-768x768.jpg",
+    "description": "Proteinrige energikugler med havre, skyr og peanutbutter – en sund og nem snack til hverdag og træning.",
+    "categories": [
+      "snacks",
+      "sunde snacks",
+      "protein"
+    ],
+    "tags": [
+      "proteinrig",
+      "energikugler",
+      "hurtig snack",
+      "uden bagning",
+      "træning"
+    ],
+    "minutes": 10,
+    "level": "Nem",
+    "nutrition": {
+      "calories": 95,
+      "protein": 6,
+      "carbohydrates": 8,
+      "fat": 4
+    }
   }
 ]
