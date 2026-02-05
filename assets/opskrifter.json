@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "wrap-med-peanutbutter-og-banan",
+  "title": "Wrap med peanutbutter og banan",
+  "url": "/opskrifter/wrap-med-peanutbutter-og-banan.html",
+  "image": "/assets/images/recipes/wrap-med-peanutbutter-og-banan-768x768.jpg",
+  "description": "Wrap med peanutbutter og banan – nem, mættende og sund snack perfekt til madpakken, før træning eller som hurtig morgenmad.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "madpakke"
+  ],
+  "tags": [
+    "wrap",
+    "banan",
+    "peanutbutter",
+    "børnevenlig",
+    "hurtig snack"
+  ],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 320,
+    "protein": 10,
+    "carbohydrates": 34,
+    "fat": 16
+  }
+},
+  {
   "id": "aeblebade-med-peanutbutter-og-kanel",
   "title": "Æblebåde med peanutbutter og kanel",
   "url": "/opskrifter/aeblebade-med-peanutbutter-og-kanel.html",
