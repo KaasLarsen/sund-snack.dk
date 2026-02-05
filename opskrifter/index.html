@@ -21,77 +21,94 @@
   <style>
     .container{width:min(1100px, calc(100% - 2rem));margin:0 auto}
 
-    /* hero */
-    .hero{
-      padding:26px 0 18px;
-    }
-    .hero-card{
+    /* ========== HERO (samme feel som forsiden: centreret + billede-panel) ========== */
+    .hero{padding:22px 0 10px}
+    .hero-panel{
+      position:relative;
       border-radius:24px;
+      overflow:hidden;
       border:1px solid rgba(11,18,32,.10);
       box-shadow:0 18px 60px rgba(11,18,32,.10);
-      overflow:hidden;
       background:#fff;
     }
-    .hero-inner{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
-      padding:18px;
-      align-items:center;
-      position:relative;
+    .hero-media{
+      position:absolute; inset:0;
+      background:#f3f4f6;
     }
-    @media (max-width:980px){.hero-inner{grid-template-columns:1fr}}
-
-    .hero-copy h1{
+    .hero-media img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+      filter:saturate(1.05);
+      transform:scale(1.02);
+    }
+    .hero-overlay{
+      position:absolute; inset:0;
+      background:linear-gradient(
+        180deg,
+        rgba(255,255,255,.88) 0%,
+        rgba(255,255,255,.78) 40%,
+        rgba(255,255,255,.92) 100%
+      );
+    }
+    .hero-inner{
+      position:relative;
+      padding:18px 18px 16px;
+      text-align:center;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+    .hero-title{
       margin:0;
-      font-size:clamp(2rem,3.4vw,2.8rem);
+      font-size:clamp(2rem,3.4vw,2.85rem);
       font-weight:950;
       letter-spacing:-.02em;
     }
-    .hero-copy p{
-      margin:10px 0 0;
+    .hero-sub{
+      margin:0;
+      max-width:78ch;
       color:rgba(11,18,32,.72);
       font-weight:650;
-      max-width:70ch;
       line-height:1.55;
     }
 
-    .hero-media{
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(11,18,32,.10);
-      background:rgba(11,18,32,.03);
-      min-height:210px;
-      position:relative;
-    }
-    .hero-media img{
+    /* search */
+    .search-wrap{
       width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+      display:flex;
+      justify-content:center;
+      margin-top:6px;
     }
-
-    /* search + controls */
-    .controls{margin-top:14px;display:flex;flex-direction:column;gap:10px}
-    .search-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
     .search-input{
-      flex:1;
-      min-width:min(640px,100%);
+      width:min(760px,100%);
       padding:14px 16px;
       border:1px solid rgba(11,18,32,.12);
-      border-radius:999px;
+      border-radius:9999px;
       background:#fff;
-      box-shadow:0 8px 22px rgba(11,18,32,.06);
+      box-shadow:0 8px 22px rgba(11,18,32,.08);
       font-size:1rem;
       font-weight:650;
       outline:none;
     }
     .search-input:focus{border-color:rgba(22,163,74,.40)}
+
+    /* under-row: filtre + sort + nulstil (samme “under søgebjælken” vibe) */
+    .under-row{
+      width:100%;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
     .btnx{
       display:inline-flex;
       align-items:center;
       gap:10px;
-      padding:.78rem 1rem;
+      padding:.72rem 1rem;
       border-radius:999px;
       border:1px solid rgba(11,18,32,.12);
       background:#fff;
@@ -99,41 +116,46 @@
       cursor:pointer;
       user-select:none;
       transition:transform .08s ease, background .15s ease, border-color .15s ease;
+      box-shadow:0 6px 16px rgba(11,18,32,.06);
     }
     .btnx:active{transform:scale(.98)}
     .btnx.primary{
-      border-color:rgba(22,163,74,.28);
-      background:rgba(22,163,74,.08);
+      border-color:rgba(22,163,74,.30);
+      background:rgba(22,163,74,.10);
       color:#0b3d1f;
     }
     .btnx.ghost{
       background:rgba(11,18,32,.03);
+      box-shadow:none;
     }
     .select{
-      padding:.74rem 1rem;
+      padding:.70rem 1rem;
       border-radius:999px;
       border:1px solid rgba(11,18,32,.12);
       background:#fff;
-      font-weight:850;
+      font-weight:900;
       cursor:pointer;
+      box-shadow:0 6px 16px rgba(11,18,32,.06);
     }
 
     .meta-line{
+      width:100%;
       display:flex;
       justify-content:space-between;
       gap:12px;
       flex-wrap:wrap;
-      margin-top:4px;
+      margin-top:8px;
       color:rgba(11,18,32,.68);
       font-weight:650;
+      max-width:min(920px,100%);
     }
 
-    /* filter chips */
+    /* filters panel (samme kort-look som jeres opskriftpilot) */
     .filters{
       display:none;
-      margin-top:8px;
-      border-top:1px solid rgba(11,18,32,.08);
-      padding-top:12px;
+      width:100%;
+      max-width:min(920px,100%);
+      margin-top:10px;
     }
     .filters.is-open{display:block}
 
@@ -146,6 +168,7 @@
       border-radius:18px;
       box-shadow:0 8px 22px rgba(11,18,32,.08);
       padding:14px;
+      text-align:left;
     }
     .cardx h2{margin:0 0 10px;font-size:1.05rem;font-weight:950;letter-spacing:-.01em}
     .chip-row{display:flex;flex-wrap:wrap;gap:8px}
@@ -169,7 +192,7 @@
       color:#0b3d1f;
     }
 
-    /* recipes grid */
+    /* ========== GRID ========== */
     .section{padding:10px 0 56px}
     .grid{
       display:grid;
@@ -234,58 +257,61 @@
   <main>
     <section class="hero">
       <div class="container">
-        <div class="hero-card">
+        <div class="hero-panel">
+          <div class="hero-media" aria-hidden="true">
+            <img src="/assets/images/hero-opskrifter.jpg" alt="" loading="eager" />
+          </div>
+          <div class="hero-overlay" aria-hidden="true"></div>
+
           <div class="hero-inner">
-            <div class="hero-copy">
-              <h1>Opskrifter</h1>
-              <p>
-                Søg i alle vores sunde snacks og hurtige idéer. Brug filtrene til at finde proteinrige snacks, noget uden bagning,
-                eller bare en nem favorit til hverdagen.
-              </p>
+            <h1 class="hero-title">Opskrifter</h1>
+            <p class="hero-sub">
+              Søg i alle vores sunde snacks og hurtige idéer. Brug filtrene til at finde fx proteinrige snacks,
+              “uden bagning” eller noget hurtigt til hverdagen.
+            </p>
 
-              <div class="controls">
-                <div class="search-row">
-                  <input id="q" class="search-input" type="search" inputmode="search" autocomplete="off"
-                         placeholder="Søg efter fx “banan”, “protein”, “uden bagning” …" />
+            <div class="search-wrap">
+              <input
+                id="q"
+                class="search-input"
+                type="search"
+                inputmode="search"
+                autocomplete="off"
+                placeholder="Søg efter fx “banan”, “protein”, “uden bagning” …" />
+            </div>
 
-                  <button class="btnx ghost" type="button" id="toggleFiltersBtn" aria-expanded="false">
-                    Filtre
-                  </button>
+            <div class="under-row" aria-label="Kontroller">
+              <button class="btnx primary" type="button" id="toggleFiltersBtn" aria-expanded="false">
+                Filtre +
+              </button>
 
-                  <select id="sort" class="select" aria-label="Sortering">
-                    <option value="new">Nyeste</option>
-                    <option value="az">A–Z</option>
-                    <option value="fast">Hurtigst</option>
-                  </select>
+              <select id="sort" class="select" aria-label="Sortering">
+                <option value="new">Nyeste</option>
+                <option value="az">A–Z</option>
+                <option value="fast">Hurtigst</option>
+              </select>
 
-                  <button class="btnx" type="button" id="clearBtn">Nulstil</button>
+              <button class="btnx ghost" type="button" id="clearBtn">Nulstil</button>
+            </div>
+
+            <div class="meta-line">
+              <div><span id="countText">Indlæser opskrifter…</span></div>
+              <div class="muted">Tip: klik på chips for at filtrere</div>
+            </div>
+
+            <div id="filters" class="filters" aria-label="Filtre">
+              <div class="chip-grid">
+                <div class="cardx">
+                  <h2>Kategorier</h2>
+                  <div id="catChips" class="chip-row"></div>
                 </div>
-
-                <div class="meta-line">
-                  <div><span id="countText">Indlæser opskrifter…</span></div>
-                  <div class="muted">Tip: klik på chips for at filtrere</div>
+                <div class="cardx">
+                  <h2>Tags</h2>
+                  <div id="tagChips" class="chip-row"></div>
                 </div>
-
-                <div id="filters" class="filters" aria-label="Filtre">
-                  <div class="chip-grid">
-                    <div class="cardx">
-                      <h2>Kategorier</h2>
-                      <div id="catChips" class="chip-row"></div>
-                    </div>
-                    <div class="cardx">
-                      <h2>Tags</h2>
-                      <div id="tagChips" class="chip-row"></div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
             </div>
 
-            <div class="hero-media" aria-hidden="true">
-              <!-- lav selv billedet senere -->
-              <img src="/assets/images/hero-opskrifter.jpg" alt="" loading="eager" />
-            </div>
           </div>
         </div>
       </div>
@@ -339,14 +365,8 @@
       const tagChipsEl = qs("#tagChips");
 
       let all = [];
-      let state = {
-        q: "",
-        cats: new Set(),
-        tags: new Set(),
-        sort: "new"
-      };
+      let state = { q:"", cats:new Set(), tags:new Set(), sort:"new" };
 
-      // URL params (så man kan linke til en søgning)
       function readParams() {
         const p = new URLSearchParams(location.search);
         state.q = p.get("q") || "";
@@ -360,7 +380,6 @@
         const url = new URL(location.href);
         if (state.q) url.searchParams.set("q", state.q); else url.searchParams.delete("q");
         if (state.sort && state.sort !== "new") url.searchParams.set("sort", state.sort); else url.searchParams.delete("sort");
-
         const c = Array.from(state.cats);
         const t = Array.from(state.tags);
         if (c.length) url.searchParams.set("cat", c.join(",")); else url.searchParams.delete("cat");
@@ -368,12 +387,10 @@
         history.replaceState({}, "", url.toString());
       }
 
-      // Build chips from data
       function uniqSorted(arr) {
         const set = new Set(arr.map(norm).filter(Boolean));
         return Array.from(set).sort((a,b) => a.localeCompare(b, "da"));
       }
-
       function renderChips(container, items, type) {
         container.innerHTML = "";
         items.forEach(val => {
@@ -387,7 +404,6 @@
         });
       }
 
-      // Score & filter
       function matches(item) {
         const hay = norm(item.title) + " " + norm(item.description) + " " +
           (Array.isArray(item.categories) ? item.categories.map(norm).join(" ") : "") + " " +
@@ -408,11 +424,9 @@
         const copy = [...list];
         const byAZ = (a,b) => String(a.title||"").localeCompare(String(b.title||""), "da");
         const byFast = (a,b) => (Number(a.minutes||9999) - Number(b.minutes||9999)) || byAZ(a,b);
-
-        // "Nyeste": hvis I senere tilføjer datePublished/date til json, tager vi det. Indtil da: behold rækkefølgen i json.
         if (state.sort === "az") return copy.sort(byAZ);
         if (state.sort === "fast") return copy.sort(byFast);
-        return copy; // new
+        return copy; // new = behold JSON rækkefølge
       }
 
       function formatPills(item) {
@@ -424,16 +438,16 @@
         return pills;
       }
 
-      function render(list) {
+      function render() {
+        if (!grid) return;
         grid.innerHTML = "";
-        const filtered = sortList(list.filter(matches));
+
+        const filtered = sortList(all.filter(matches));
 
         if (countText) {
           const total = all.length;
           const shown = filtered.length;
-          countText.textContent = shown === total
-            ? `${shown} opskrifter`
-            : `${shown} af ${total} opskrifter`;
+          countText.textContent = shown === total ? `${shown} opskrifter` : `${shown} af ${total} opskrifter`;
         }
 
         if (!filtered.length) {
@@ -448,7 +462,6 @@
           const desc = r.description || "";
           const url = r.url || "#";
           const pills = formatPills(r).map(p => `<span class="pill">${p}</span>`).join("");
-
           return `
             <article class="mini-card">
               <a class="card-link" href="${url}">
@@ -468,7 +481,6 @@
         if (qInput) qInput.value = state.q || "";
         if (sortSel) sortSel.value = state.sort || "new";
 
-        // highlight selected chips
         qsa(".chip").forEach(ch => {
           const val = norm(ch.dataset.value);
           const type = ch.dataset.type;
@@ -476,8 +488,16 @@
           ch.classList.toggle("is-on", on);
         });
 
-        render(all);
+        render();
         writeParams();
+      }
+
+      function setFiltersOpen(open) {
+        if (!filtersWrap || !toggleFiltersBtn) return;
+        filtersWrap.classList.toggle("is-open", open);
+        toggleFiltersBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        toggleFiltersBtn.classList.toggle("primary", true);
+        toggleFiltersBtn.textContent = open ? "Filtre −" : "Filtre +";
       }
 
       function resetAll() {
@@ -486,13 +506,7 @@
         state.tags = new Set();
         state.sort = "new";
         syncUI();
-      }
-
-      // open/close filters
-      function setFiltersOpen(open) {
-        filtersWrap.classList.toggle("is-open", open);
-        toggleFiltersBtn.setAttribute("aria-expanded", open ? "true" : "false");
-        toggleFiltersBtn.classList.toggle("primary", open);
+        setFiltersOpen(false);
       }
 
       // Load json
@@ -503,14 +517,12 @@
         const data = await res.json();
         all = Array.isArray(data) ? data : (data.recipes || []);
 
-        // build chip lists
         const cats = uniqSorted(all.flatMap(r => r.categories || []));
         const tags = uniqSorted(all.flatMap(r => r.tags || []));
 
         renderChips(catChipsEl, cats, "cat");
         renderChips(tagChipsEl, tags, "tag");
 
-        // attach listeners
         if (qInput) {
           qInput.addEventListener("input", () => {
             state.q = qInput.value || "";
@@ -546,10 +558,9 @@
           syncUI();
         });
 
-        // initial UI
         syncUI();
 
-        // auto-open filters if params have filters
+        // auto-open hvis URL param har filtre
         if (state.cats.size || state.tags.size) setFiltersOpen(true);
 
       } catch (e) {
