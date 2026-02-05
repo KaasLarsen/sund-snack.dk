@@ -27,6 +27,23 @@
     }
   },
   {
+  "id": "chiapudding-med-vanilje-og-baer",
+  "title": "Chiapudding med vanilje og bær",
+  "url": "/opskrifter/chiapudding-med-vanilje-og-baer.html",
+  "image": "/assets/images/recipes/chiapudding-med-vanilje-og-baer-768x768.jpg",
+  "description": "Chiapudding med vanilje og bær – nem sund snack uden bagning. Perfekt til meal prep, morgenmad og madpakken.",
+  "categories": ["snacks", "sund morgenmad", "uden bagning"],
+  "tags": ["chiafrø", "chiapudding", "meal prep", "bær", "vanilje"],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 220,
+    "protein": 14,
+    "carbohydrates": 20,
+    "fat": 9
+  }
+},
+  {
   "id": "havregrynskugler-med-kakao",
   "title": "Havregrynskugler med kakao",
   "url": "/opskrifter/havregrynskugler-med-kakao.html",
