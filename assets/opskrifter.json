@@ -27,6 +27,23 @@
     }
   },
   {
+  "id": "havregrynskugler-med-kakao",
+  "title": "Havregrynskugler med kakao",
+  "url": "/opskrifter/havregrynskugler-med-kakao.html",
+  "image": "/assets/images/recipes/havregrynskugler-med-kakao-768x768.jpg",
+  "description": "Havregrynskugler med kakao – nem sund snack uden bagning, klar på 15 minutter. Perfekt til madpakken og den søde tand.",
+  "categories": ["snacks", "sunde snacks", "uden bagning"],
+  "tags": ["havregryn", "kakao", "hurtig snack", "madpakke", "chokolade"],
+  "minutes": 15,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 140,
+    "protein": 5,
+    "carbohydrates": 14,
+    "fat": 7
+  }
+},
+  {
     "id": "bananpandekager",
     "title": "Bananpandekager",
     "url": "/opskrifter/bananpandekager.html",
