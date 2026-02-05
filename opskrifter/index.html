@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Opskrifter – sunde snacks og nemme idéer | Sund Snack</title>
-  <meta name="description" content="Find alle opskrifter på Sund Snack. Søg i sunde snacks, filtrér på kategorier og tags, og find din næste favorit." />
+  <meta name="description" content="Find alle opskrifter på Sund Snack. Søg direkte i heroen og filtrér på kategorier og tags – alle opskrifter hentes automatisk fra opskrifter.json." />
   <link rel="canonical" href="https://www.sund-snack.dk/opskrifter/" />
 
-  <meta property="og:title" content="Opskrifter – sunde snacks og nemme idéer | Sund Snack" />
-  <meta property="og:description" content="Søg og filtrér blandt alle opskrifter fra Sund Snack – sunde snacks, proteinrige bites og hurtige idéer." />
+  <meta property="og:title" content="Opskrifter – Sund Snack" />
+  <meta property="og:description" content="Søg blandt sunde opskrifter og filtrér på tags og kategorier – alt samlet ét sted." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.sund-snack.dk/opskrifter/" />
   <meta property="og:image" content="https://www.sund-snack.dk/assets/images/hero-opskrifter.jpg" />
@@ -19,235 +19,109 @@
   <script src="/assets/site.js" defer></script>
 
   <style>
+    /* ===== HERO (1:1 fra forsiden) ===== */
+    .hero--full{position:relative;height:520px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45),rgba(0,0,0,.45))}
+    .hero-content{position:relative;text-align:center;color:#fff;padding:0 1rem}
+    .hero-title{margin:0 0 10px;font-size:clamp(2.1rem,4.4vw,3.4rem);font-weight:900;letter-spacing:-.02em}
+    .hero-subtitle{margin:0 0 22px;font-size:clamp(1rem,1.5vw,1.25rem);opacity:.92;font-weight:600}
+
+    .hero-searchwrap{width:min(860px,100%);margin:0 auto}
+    .hero-searchbar{background:#fff;border-radius:999px;display:flex;align-items:center;padding:10px 14px;box-shadow:0 18px 50px rgba(0,0,0,.25)}
+    .hero-searchbar input{flex:1;border:0;outline:0;height:56px;font-size:1.05rem;padding:0 12px;border-radius:999px}
+    .hero-searchbtn{width:56px;height:56px;border:0;border-radius:999px;background:transparent;cursor:pointer;display:grid;place-items:center;color:rgba(0,0,0,.7)}
+    .hero-searchbtn svg{width:22px;height:22px}
+
+    .hero-actions{display:flex;justify-content:center;margin-top:16px}
+    .hero-filterbtn{
+      background:rgba(0,0,0,.35);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.35);
+      border-radius:999px;
+      padding:.55rem .95rem;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .hero-filterbtn:hover{background:rgba(0,0,0,.45)}
+
+    /* ===== Filters drawer (samme som du sendte: .drawer) ===== */
+    .drawer{position:fixed;inset:0;display:none;z-index:100}
+    .drawer[aria-hidden="false"]{display:block}
+    .drawer-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+    .drawer-panel{
+      position:absolute;right:0;top:0;height:100%;width:min(420px,100%);
+      background:#fff;border-left:1px solid rgba(0,0,0,.10);
+      padding:18px 16px;overflow:auto;
+      box-shadow:-20px 0 60px rgba(0,0,0,.18);
+    }
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+    .drawer-title{margin:0;font-size:1.05rem;font-weight:900}
+    .drawer-close{
+      width:44px;height:44px;border-radius:12px;border:1px solid rgba(0,0,0,.12);
+      background:rgba(0,0,0,.04);cursor:pointer;font-weight:900
+    }
+    .filter-group{padding:12px 0;border-top:1px solid rgba(0,0,0,.08)}
+    .filter-group:first-of-type{border-top:0}
+    .filter-label{display:block;font-weight:900;margin-bottom:8px}
+    .chiprow{display:flex;flex-wrap:wrap;gap:8px}
+    .fchip{
+      border:1px solid rgba(0,0,0,.12);
+      background:#fff;
+      padding:.5rem .75rem;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+    }
+    .fchip[aria-pressed="true"]{
+      border-color: rgba(22,163,74,.45);
+      background: rgba(22,163,74,.10);
+    }
+    .drawer-actions{display:flex;gap:10px;margin-top:14px}
+    .btnx{
+      flex:1;display:inline-flex;align-items:center;justify-content:center;
+      padding:.85rem 1rem;border-radius:999px;border:1px solid rgba(0,0,0,.12);
+      background:#fff;font-weight:900;cursor:pointer
+    }
+    .btnx-primary{border-color:transparent;background:#16a34a;color:#fff}
+    .btnx-primary:hover{filter:brightness(.96)}
+    .btnx:hover{background:rgba(0,0,0,.04)}
+
+    /* ===== Results grid (1:1 vibe) ===== */
+    .section{padding:26px 0 56px}
+    .section-head{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+    .section-head h2{margin:0;font-size:1.25rem;letter-spacing:-.01em}
+    .muted{color:rgba(11,18,32,.68)}
     .container{width:min(1100px, calc(100% - 2rem));margin:0 auto}
 
-    /* ========== HERO (samme feel som forsiden: centreret + billede-panel) ========== */
-    .hero{padding:22px 0 10px}
-    .hero-panel{
-      position:relative;
-      border-radius:24px;
-      overflow:hidden;
-      border:1px solid rgba(11,18,32,.10);
-      box-shadow:0 18px 60px rgba(11,18,32,.10);
-      background:#fff;
-    }
-    .hero-media{
-      position:absolute; inset:0;
-      background:#f3f4f6;
-    }
-    .hero-media img{
-      width:100%; height:100%;
-      object-fit:cover;
-      display:block;
-      filter:saturate(1.05);
-      transform:scale(1.02);
-    }
-    .hero-overlay{
-      position:absolute; inset:0;
-      background:linear-gradient(
-        180deg,
-        rgba(255,255,255,.88) 0%,
-        rgba(255,255,255,.78) 40%,
-        rgba(255,255,255,.92) 100%
-      );
-    }
-    .hero-inner{
-      position:relative;
-      padding:18px 18px 16px;
-      text-align:center;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      gap:10px;
-    }
-    .hero-title{
-      margin:0;
-      font-size:clamp(2rem,3.4vw,2.85rem);
-      font-weight:950;
-      letter-spacing:-.02em;
-    }
-    .hero-sub{
-      margin:0;
-      max-width:78ch;
-      color:rgba(11,18,32,.72);
-      font-weight:650;
-      line-height:1.55;
-    }
-
-    /* search */
-    .search-wrap{
-      width:100%;
-      display:flex;
-      justify-content:center;
-      margin-top:6px;
-    }
-    .search-input{
-      width:min(760px,100%);
-      padding:14px 16px;
-      border:1px solid rgba(11,18,32,.12);
-      border-radius:9999px;
-      background:#fff;
-      box-shadow:0 8px 22px rgba(11,18,32,.08);
-      font-size:1rem;
-      font-weight:650;
-      outline:none;
-    }
-    .search-input:focus{border-color:rgba(22,163,74,.40)}
-
-    /* under-row: filtre + sort + nulstil (samme “under søgebjælken” vibe) */
-    .under-row{
-      width:100%;
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      align-items:center;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .btnx{
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      padding:.72rem 1rem;
-      border-radius:999px;
-      border:1px solid rgba(11,18,32,.12);
-      background:#fff;
-      font-weight:900;
-      cursor:pointer;
-      user-select:none;
-      transition:transform .08s ease, background .15s ease, border-color .15s ease;
-      box-shadow:0 6px 16px rgba(11,18,32,.06);
-    }
-    .btnx:active{transform:scale(.98)}
-    .btnx.primary{
-      border-color:rgba(22,163,74,.30);
-      background:rgba(22,163,74,.10);
-      color:#0b3d1f;
-    }
-    .btnx.ghost{
-      background:rgba(11,18,32,.03);
-      box-shadow:none;
-    }
-    .select{
-      padding:.70rem 1rem;
-      border-radius:999px;
-      border:1px solid rgba(11,18,32,.12);
-      background:#fff;
-      font-weight:900;
-      cursor:pointer;
-      box-shadow:0 6px 16px rgba(11,18,32,.06);
-    }
-
-    .meta-line{
-      width:100%;
-      display:flex;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:8px;
-      color:rgba(11,18,32,.68);
-      font-weight:650;
-      max-width:min(920px,100%);
-    }
-
-    /* filters panel (samme kort-look som jeres opskriftpilot) */
-    .filters{
-      display:none;
-      width:100%;
-      max-width:min(920px,100%);
-      margin-top:10px;
-    }
-    .filters.is-open{display:block}
-
-    .chip-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    @media (max-width:980px){.chip-grid{grid-template-columns:1fr}}
-
-    .cardx{
-      background:#fff;
-      border:1px solid rgba(11,18,32,.10);
-      border-radius:18px;
-      box-shadow:0 8px 22px rgba(11,18,32,.08);
-      padding:14px;
-      text-align:left;
-    }
-    .cardx h2{margin:0 0 10px;font-size:1.05rem;font-weight:950;letter-spacing:-.01em}
-    .chip-row{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:.42rem .72rem;
-      border-radius:999px;
-      border:1px solid rgba(11,18,32,.12);
-      background:rgba(11,18,32,.03);
-      font-weight:900;
-      cursor:pointer;
-      user-select:none;
-      transition:background .15s ease, border-color .15s ease, transform .08s ease;
-    }
-    .chip:active{transform:scale(.98)}
-    .chip.is-on{
-      border-color:rgba(22,163,74,.35);
-      background:rgba(22,163,74,.10);
-      color:#0b3d1f;
-    }
-
-    /* ========== GRID ========== */
-    .section{padding:10px 0 56px}
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:14px;
-      margin-top:14px;
-    }
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
     @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    @media (max-width:640px){
+      .hero--full{height:480px}
+      .hero-searchbar{padding:8px 10px}
+      .hero-searchbar input{height:52px;font-size:1rem}
+      .hero-searchbtn{width:52px;height:52px}
+      .grid{grid-template-columns:1fr}
+    }
 
-    .mini-card{
-      background:#fff;
-      border:1px solid rgba(11,18,32,.10);
-      border-radius:18px;
-      overflow:hidden;
+    .card{
+      background:#fff;border:1px solid rgba(11,18,32,.10);border-radius:18px;overflow:hidden;
       box-shadow:0 6px 18px rgba(11,18,32,.08);
       transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
     }
-    .mini-card:hover{
-      transform:translateY(-2px);
-      border-color:rgba(22,163,74,.25);
-      box-shadow:0 14px 34px rgba(11,18,32,.10);
-    }
-    .mini-thumb{
-      height:160px;
-      background-size:cover;
-      background-position:center;
-      background-color:rgba(11,18,32,.05);
-    }
-    .mini-body{padding:12px}
-    .mini-title{margin:0 0 6px;font-weight:950;letter-spacing:-.01em}
-    .mini-desc{margin:0;color:rgba(11,18,32,.72);font-weight:650}
-    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:.38rem .62rem;
-      border-radius:999px;
-      border:1px solid rgba(11,18,32,.12);
-      background:rgba(11,18,32,.03);
-      font-weight:900;
-      font-size:.92rem;
-    }
+    .card:hover{transform:translateY(-2px);border-color:rgba(22,163,74,.25);box-shadow:0 14px 34px rgba(11,18,32,.10)}
+    .card-link{display:block;height:100%}
+    .thumb{height:160px;background-size:cover;background-position:center;background-color:rgba(11,18,32,.05)}
+    .card-body{padding:14px;display:flex;flex-direction:column;height:calc(100% - 160px)}
+    .card-meta{margin:0 0 8px;font-weight:900;font-size:.85rem;color:rgba(11,18,32,.60)}
+    .card-title{margin:0 0 8px;font-size:1.05rem;line-height:1.22;letter-spacing:-.01em}
+    .card-desc{margin:0 0 12px;color:rgba(11,18,32,.70);font-weight:600;flex:1}
+    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+    .tag{display:inline-flex;padding:.28rem .55rem;border-radius:999px;border:1px solid rgba(22,163,74,.18);background:rgba(22,163,74,.08);font-weight:900;font-size:.8rem}
+    .card-cta{font-weight:900;color:rgba(22,163,74,.95)}
 
-    .empty{
-      padding:18px;
-      border:1px dashed rgba(11,18,32,.18);
-      border-radius:18px;
-      background:rgba(11,18,32,.02);
-      margin-top:14px;
-    }
+    .empty{padding:22px;border:1px dashed rgba(11,18,32,.18);border-radius:18px;background:rgba(11,18,32,.02)}
     .empty h3{margin:0 0 6px}
-    .muted{color:rgba(11,18,32,.68);font-weight:650}
-    a{color:inherit;text-decoration:none}
   </style>
 </head>
 
@@ -255,84 +129,83 @@
   <div id="siteHeader"></div>
 
   <main>
-    <section class="hero">
-      <div class="container">
-        <div class="hero-panel">
-          <div class="hero-media" aria-hidden="true">
-            <img src="/assets/images/hero-opskrifter.jpg" alt="" loading="eager" />
-          </div>
-          <div class="hero-overlay" aria-hidden="true"></div>
+    <!-- HERO (samme som forsiden, bare nyt billede + tekst) -->
+    <section class="hero hero--full">
+      <img class="hero-media" src="/assets/images/hero-opskrifter.jpg" alt="Sunde snacks og opskrifter" loading="eager" />
+      <div class="hero-overlay" aria-hidden="true"></div>
 
-          <div class="hero-inner">
-            <h1 class="hero-title">Opskrifter</h1>
-            <p class="hero-sub">
-              Søg i alle vores sunde snacks og hurtige idéer. Brug filtrene til at finde fx proteinrige snacks,
-              “uden bagning” eller noget hurtigt til hverdagen.
-            </p>
+      <div class="hero-content container">
+        <h1 class="hero-title">Opskrifter</h1>
+        <p class="hero-subtitle">Søg blandt alle vores sunde snacks – og filtrér på kategorier og tags.</p>
 
-            <div class="search-wrap">
-              <input
-                id="q"
-                class="search-input"
-                type="search"
-                inputmode="search"
-                autocomplete="off"
-                placeholder="Søg efter fx “banan”, “protein”, “uden bagning” …" />
-            </div>
+        <div class="hero-searchwrap">
+          <form class="hero-searchbar" role="search" onsubmit="return false;">
+            <input id="q" type="search" placeholder="Søg efter opskrift..." autocomplete="off" />
+            <button id="searchBtn" class="hero-searchbtn" type="button" aria-label="Søg">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm11 3-6.1-6.1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </form>
 
-            <div class="under-row" aria-label="Kontroller">
-              <button class="btnx primary" type="button" id="toggleFiltersBtn" aria-expanded="false">
-                Filtre +
-              </button>
-
-              <select id="sort" class="select" aria-label="Sortering">
-                <option value="new">Nyeste</option>
-                <option value="az">A–Z</option>
-                <option value="fast">Hurtigst</option>
-              </select>
-
-              <button class="btnx ghost" type="button" id="clearBtn">Nulstil</button>
-            </div>
-
-            <div class="meta-line">
-              <div><span id="countText">Indlæser opskrifter…</span></div>
-              <div class="muted">Tip: klik på chips for at filtrere</div>
-            </div>
-
-            <div id="filters" class="filters" aria-label="Filtre">
-              <div class="chip-grid">
-                <div class="cardx">
-                  <h2>Kategorier</h2>
-                  <div id="catChips" class="chip-row"></div>
-                </div>
-                <div class="cardx">
-                  <h2>Tags</h2>
-                  <div id="tagChips" class="chip-row"></div>
-                </div>
-              </div>
-            </div>
-
+          <!-- Filtre knap UNDER søgebjælken (samme) -->
+          <div class="hero-actions">
+            <button id="openFilters" class="hero-filterbtn" type="button">Filtre +</button>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- RESULTS -->
     <section class="section">
       <div class="container">
-        <div id="grid" class="grid"></div>
-        <div id="empty" class="empty" style="display:none;">
-          <h3>Ingen resultater</h3>
-          <p class="muted">Prøv at søge efter noget andet, eller nulstil filtre.</p>
+        <div class="section-head">
+          <h2 id="resultsTitle">Opskrifter</h2>
+          <p class="muted" id="resultsHint">Søg i feltet ovenfor for at filtrere.</p>
+        </div>
+
+        <div id="recipesGrid" class="grid" aria-live="polite"></div>
+
+        <div id="emptyState" class="empty" hidden>
+          <h3>Ingen opskrifter matcher din søgning</h3>
+          <p class="muted">Prøv et andet søgeord – fx “protein”, “skyr” eller “wrap”.</p>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Filters drawer (KORREKT: matcher CSS .drawer) -->
+  <div id="filtersDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-backdrop" data-close></div>
+
+    <aside class="drawer-panel" role="dialog" aria-modal="true" aria-label="Filtre">
+      <div class="drawer-head">
+        <h3 class="drawer-title">Filtre</h3>
+        <button class="drawer-close" type="button" data-close aria-label="Luk">✕</button>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Kategorier</span>
+        <div id="filtersCats" class="chiprow"></div>
+      </div>
+
+      <div class="filter-group">
+        <span class="filter-label">Tags</span>
+        <div id="filtersTags" class="chiprow"></div>
+      </div>
+
+      <div class="drawer-actions">
+        <button id="resetFilters" class="btnx" type="button">Nulstil</button>
+        <button id="applyFilters" class="btnx btnx-primary" type="button">Anvend filtre</button>
+      </div>
+    </aside>
+  </div>
+
   <div id="siteFooter"></div>
 
   <script>
     // -----------------------------
-    // Partials
+    // Partials loader (header/footer)
     // -----------------------------
     async function loadPartial(mountId, url) {
       const el = document.getElementById(mountId);
@@ -346,232 +219,198 @@
     loadPartial("siteFooter", "/partials/footer.html");
 
     // -----------------------------
-    // Opskrifter index
+    // Search + Filters (samme side)
     // -----------------------------
-    (async () => {
-      const qs = (s, r=document) => r.querySelector(s);
-      const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
-      const norm = (s) => String(s || "").toLowerCase().trim();
+    const qs = (s, r=document) => r.querySelector(s);
+    const norm = (s) => String(s || "").toLowerCase().trim().replace(/\s+/g," ");
 
-      const grid = qs("#grid");
-      const empty = qs("#empty");
-      const qInput = qs("#q");
-      const countText = qs("#countText");
-      const sortSel = qs("#sort");
-      const filtersWrap = qs("#filters");
-      const toggleFiltersBtn = qs("#toggleFiltersBtn");
-      const clearBtn = qs("#clearBtn");
-      const catChipsEl = qs("#catChips");
-      const tagChipsEl = qs("#tagChips");
+    const input = qs("#q");
+    const searchBtn = qs("#searchBtn");
 
-      let all = [];
-      let state = { q:"", cats:new Set(), tags:new Set(), sort:"new" };
+    const grid = qs("#recipesGrid");
+    const emptyState = qs("#emptyState");
+    const resultsTitle = qs("#resultsTitle");
+    const resultsHint = qs("#resultsHint");
 
-      function readParams() {
-        const p = new URLSearchParams(location.search);
-        state.q = p.get("q") || "";
-        state.sort = p.get("sort") || "new";
-        const c = (p.get("cat") || "").split(",").map(x => norm(x)).filter(Boolean);
-        const t = (p.get("tag") || "").split(",").map(x => norm(x)).filter(Boolean);
-        state.cats = new Set(c);
-        state.tags = new Set(t);
+    const drawer = qs("#filtersDrawer");
+    const openFiltersBtn = qs("#openFilters");
+    const applyFiltersBtn = qs("#applyFilters");
+    const resetFiltersBtn = qs("#resetFilters");
+
+    const catsEl = qs("#filtersCats");
+    const tagsEl = qs("#filtersTags");
+
+    let ALL = [];
+    let selectedCats = new Set();
+    let selectedTags = new Set();
+
+    function getQFromURL(){
+      const p = new URLSearchParams(location.search);
+      return p.get("q") || "";
+    }
+    function setQToURL(v){
+      const url = new URL(location.href);
+      if (v) url.searchParams.set("q", v);
+      else url.searchParams.delete("q");
+      history.replaceState({}, "", url.toString());
+    }
+
+    function recipeToText(r){
+      return norm([r.title, r.description, (r.categories||[]).join(" "), (r.tags||[]).join(" ")].join(" "));
+    }
+
+    function openDrawer(){
+      drawer.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+    function closeDrawer(){
+      drawer.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function makeChip(label, setRef){
+      const b = document.createElement("button");
+      b.className = "fchip";
+      b.type = "button";
+      b.textContent = label;
+      b.setAttribute("aria-pressed", setRef.has(label) ? "true" : "false");
+      b.addEventListener("click", () => {
+        if (setRef.has(label)) setRef.delete(label);
+        else setRef.add(label);
+        b.setAttribute("aria-pressed", setRef.has(label) ? "true" : "false");
+      });
+      return b;
+    }
+
+    function rebuildFilterChips(list){
+      const cats = new Set();
+      const tags = new Set();
+      list.forEach(r => {
+        (r.categories||[]).forEach(c => cats.add(c));
+        (r.tags||[]).forEach(t => tags.add(t));
+      });
+
+      catsEl.innerHTML = "";
+      tagsEl.innerHTML = "";
+
+      Array.from(cats).sort((a,b)=>a.localeCompare(b,"da")).forEach(c => catsEl.appendChild(makeChip(c, selectedCats)));
+      Array.from(tags).sort((a,b)=>a.localeCompare(b,"da")).forEach(t => tagsEl.appendChild(makeChip(t, selectedTags)));
+    }
+
+    function matchesFilters(r){
+      if (selectedCats.size){
+        const rc = new Set((r.categories||[]));
+        let ok = false;
+        selectedCats.forEach(c => { if (rc.has(c)) ok = true; });
+        if (!ok) return false;
       }
-      function writeParams() {
-        const url = new URL(location.href);
-        if (state.q) url.searchParams.set("q", state.q); else url.searchParams.delete("q");
-        if (state.sort && state.sort !== "new") url.searchParams.set("sort", state.sort); else url.searchParams.delete("sort");
-        const c = Array.from(state.cats);
-        const t = Array.from(state.tags);
-        if (c.length) url.searchParams.set("cat", c.join(",")); else url.searchParams.delete("cat");
-        if (t.length) url.searchParams.set("tag", t.join(",")); else url.searchParams.delete("tag");
-        history.replaceState({}, "", url.toString());
+      if (selectedTags.size){
+        const rt = new Set((r.tags||[]));
+        let ok = false;
+        selectedTags.forEach(t => { if (rt.has(t)) ok = true; });
+        if (!ok) return false;
       }
+      return true;
+    }
 
-      function uniqSorted(arr) {
-        const set = new Set(arr.map(norm).filter(Boolean));
-        return Array.from(set).sort((a,b) => a.localeCompare(b, "da"));
-      }
-      function renderChips(container, items, type) {
-        container.innerHTML = "";
-        items.forEach(val => {
-          const b = document.createElement("button");
-          b.type = "button";
-          b.className = "chip";
-          b.dataset.value = val;
-          b.dataset.type = type;
-          b.textContent = val;
-          container.appendChild(b);
-        });
-      }
-
-      function matches(item) {
-        const hay = norm(item.title) + " " + norm(item.description) + " " +
-          (Array.isArray(item.categories) ? item.categories.map(norm).join(" ") : "") + " " +
-          (Array.isArray(item.tags) ? item.tags.map(norm).join(" ") : "");
-
-        const qOK = !state.q || hay.includes(norm(state.q));
-
-        const itemCats = new Set((item.categories || []).map(norm));
-        const itemTags = new Set((item.tags || []).map(norm));
-
-        const catsOK = state.cats.size === 0 || Array.from(state.cats).every(c => itemCats.has(c));
-        const tagsOK = state.tags.size === 0 || Array.from(state.tags).every(t => itemTags.has(t));
-
-        return qOK && catsOK && tagsOK;
-      }
-
-      function sortList(list) {
-        const copy = [...list];
-        const byAZ = (a,b) => String(a.title||"").localeCompare(String(b.title||""), "da");
-        const byFast = (a,b) => (Number(a.minutes||9999) - Number(b.minutes||9999)) || byAZ(a,b);
-        if (state.sort === "az") return copy.sort(byAZ);
-        if (state.sort === "fast") return copy.sort(byFast);
-        return copy; // new = behold JSON rækkefølge
-      }
-
-      function formatPills(item) {
-        const pills = [];
-        if (item.minutes) pills.push(`⏱ ${item.minutes} min`);
-        if (item.level) pills.push(`⭐ ${item.level}`);
-        const cats = (item.categories || []).slice(0,2);
-        cats.forEach(c => pills.push(`#${c}`));
-        return pills;
-      }
-
-      function render() {
-        if (!grid) return;
-        grid.innerHTML = "";
-
-        const filtered = sortList(all.filter(matches));
-
-        if (countText) {
-          const total = all.length;
-          const shown = filtered.length;
-          countText.textContent = shown === total ? `${shown} opskrifter` : `${shown} af ${total} opskrifter`;
-        }
-
-        if (!filtered.length) {
-          if (empty) empty.style.display = "block";
-          return;
-        }
-        if (empty) empty.style.display = "none";
-
-        grid.innerHTML = filtered.map(r => {
-          const img = r.image || "/assets/images/hero.jpg";
-          const title = r.title || "Opskrift";
-          const desc = r.description || "";
-          const url = r.url || "#";
-          const pills = formatPills(r).map(p => `<span class="pill">${p}</span>`).join("");
-          return `
-            <article class="mini-card">
-              <a class="card-link" href="${url}">
-                <div class="mini-thumb" style="background-image:url('${img}')"></div>
-                <div class="mini-body">
-                  <h3 class="mini-title">${title}</h3>
-                  <p class="mini-desc">${desc}</p>
-                  <div class="pill-row">${pills}</div>
+    function renderCards(list){
+      grid.innerHTML = list.map(r => {
+        const cats = (r.categories || []).slice(0, 3);
+        const meta = [r.minutes ? `${r.minutes} min` : "", r.level ? r.level : ""].filter(Boolean).join(" • ");
+        return `
+          <article class="card">
+            <a class="card-link" href="${r.url || "#"}">
+              <div class="thumb" style="background-image:url('${r.image || ""}')"></div>
+              <div class="card-body">
+                <div class="card-top">
+                  ${meta ? `<p class="card-meta">${meta}</p>` : `<p class="card-meta muted"> </p>`}
+                  <h3 class="card-title">${r.title || "Opskrift"}</h3>
+                  <p class="card-desc">${r.description || ""}</p>
                 </div>
-              </a>
-            </article>
-          `;
-        }).join("");
+                <div class="card-tags">
+                  ${cats.map(c => `<span class="tag">${c}</span>`).join("")}
+                </div>
+                <div class="card-cta">Se opskrift →</div>
+              </div>
+            </a>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function updateUI(query, filtered){
+      if (!query){
+        resultsTitle.textContent = "Opskrifter";
+        resultsHint.textContent = "Søg i feltet ovenfor for at filtrere.";
+      } else {
+        resultsTitle.textContent = `Søgeresultater for “${query}”`;
+        resultsHint.textContent = "Resultater opdateres live, mens du skriver.";
       }
+      emptyState.hidden = filtered.length !== 0;
+      grid.hidden = filtered.length === 0;
+    }
 
-      function syncUI() {
-        if (qInput) qInput.value = state.q || "";
-        if (sortSel) sortSel.value = state.sort || "new";
+    function filterAndRender(query){
+      const q = norm(query);
+      setQToURL(query);
 
-        qsa(".chip").forEach(ch => {
-          const val = norm(ch.dataset.value);
-          const type = ch.dataset.type;
-          const on = (type === "cat") ? state.cats.has(val) : state.tags.has(val);
-          ch.classList.toggle("is-on", on);
-        });
+      let filtered = !q ? ALL : ALL.filter(r => recipeToText(r).includes(q));
+      filtered = filtered.filter(matchesFilters);
 
-        render();
-        writeParams();
-      }
+      renderCards(filtered);
+      updateUI(query, filtered);
+    }
 
-      function setFiltersOpen(open) {
-        if (!filtersWrap || !toggleFiltersBtn) return;
-        filtersWrap.classList.toggle("is-open", open);
-        toggleFiltersBtn.setAttribute("aria-expanded", open ? "true" : "false");
-        toggleFiltersBtn.classList.toggle("primary", true);
-        toggleFiltersBtn.textContent = open ? "Filtre −" : "Filtre +";
-      }
-
-      function resetAll() {
-        state.q = "";
-        state.cats = new Set();
-        state.tags = new Set();
-        state.sort = "new";
-        syncUI();
-        setFiltersOpen(false);
-      }
-
-      // Load json
-      try {
-        readParams();
-
+    async function loadRecipes(){
+      try{
         const res = await fetch("/assets/opskrifter.json", { cache: "no-store" });
         const data = await res.json();
-        all = Array.isArray(data) ? data : (data.recipes || []);
-
-        const cats = uniqSorted(all.flatMap(r => r.categories || []));
-        const tags = uniqSorted(all.flatMap(r => r.tags || []));
-
-        renderChips(catChipsEl, cats, "cat");
-        renderChips(tagChipsEl, tags, "tag");
-
-        if (qInput) {
-          qInput.addEventListener("input", () => {
-            state.q = qInput.value || "";
-            syncUI();
-          });
-        }
-        if (sortSel) {
-          sortSel.addEventListener("change", () => {
-            state.sort = sortSel.value;
-            syncUI();
-          });
-        }
-        if (clearBtn) clearBtn.addEventListener("click", resetAll);
-
-        if (toggleFiltersBtn) {
-          toggleFiltersBtn.addEventListener("click", () => {
-            const open = !filtersWrap.classList.contains("is-open");
-            setFiltersOpen(open);
-          });
-        }
-
-        document.addEventListener("click", (e) => {
-          const chip = e.target.closest(".chip");
-          if (!chip) return;
-          const val = norm(chip.dataset.value);
-          const type = chip.dataset.type;
-
-          if (type === "cat") {
-            if (state.cats.has(val)) state.cats.delete(val); else state.cats.add(val);
-          } else {
-            if (state.tags.has(val)) state.tags.delete(val); else state.tags.add(val);
-          }
-          syncUI();
-        });
-
-        syncUI();
-
-        // auto-open hvis URL param har filtre
-        if (state.cats.size || state.tags.size) setFiltersOpen(true);
-
-      } catch (e) {
-        if (countText) countText.textContent = "Kunne ikke indlæse opskrifter.";
-        if (empty) {
-          empty.style.display = "block";
-          empty.querySelector("h3").textContent = "Der skete en fejl";
-          empty.querySelector("p").textContent = "Tjek at /assets/opskrifter.json findes og er gyldigt JSON.";
-        }
+        ALL = Array.isArray(data) ? data : (data.recipes || []);
+        if (!Array.isArray(ALL)) ALL = [];
+      } catch {
+        ALL = [];
       }
-    })();
+    }
+
+    function bindDrawer(){
+      openFiltersBtn.addEventListener("click", openDrawer);
+
+      drawer.addEventListener("click", (e) => {
+        if (e.target && e.target.matches("[data-close]")) closeDrawer();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && drawer.getAttribute("aria-hidden") === "false") closeDrawer();
+      });
+
+      applyFiltersBtn.addEventListener("click", () => {
+        closeDrawer();
+        filterAndRender(input.value);
+      });
+
+      resetFiltersBtn.addEventListener("click", () => {
+        selectedCats = new Set();
+        selectedTags = new Set();
+        rebuildFilterChips(ALL);
+        filterAndRender(input.value);
+      });
+    }
+
+    async function init(){
+      const initialQ = getQFromURL();
+      if (initialQ) input.value = initialQ;
+
+      bindDrawer();
+
+      await loadRecipes();
+      rebuildFilterChips(ALL);
+      filterAndRender(input.value);
+
+      input.addEventListener("input", () => filterAndRender(input.value));
+      searchBtn.addEventListener("click", () => filterAndRender(input.value));
+    }
+
+    init();
   </script>
 </body>
 </html>
