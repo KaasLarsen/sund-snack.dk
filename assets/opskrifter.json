@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "aeblebade-med-peanutbutter-og-kanel",
+  "title": "Æblebåde med peanutbutter og kanel",
+  "url": "/opskrifter/aeblebade-med-peanutbutter-og-kanel.html",
+  "image": "/assets/images/recipes/aeblebade-med-peanutbutter-og-kanel-768x768.jpg",
+  "description": "Æblebåde med peanutbutter og kanel – en nem, børnevenlig og sund snack uden bagning. Klar på 2 minutter.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "uden bagning"
+  ],
+  "tags": [
+    "æble",
+    "peanutbutter",
+    "kanel",
+    "børnevenlig",
+    "hurtig snack"
+  ],
+  "minutes": 2,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 210,
+    "protein": 6,
+    "carbohydrates": 22,
+    "fat": 11
+  }
+},
+  {
   "id": "skyr-med-honning-og-noedder",
   "title": "Skyr med honning og nødder",
   "url": "/opskrifter/skyr-med-honning-og-noedder.html",
