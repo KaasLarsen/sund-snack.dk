@@ -12,14 +12,111 @@
   <meta property="og:description" content="Sprøde æblebåde med cremet peanutbutter og kanel. Perfekt sund snack uden bagning." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sund-snack.dk/opskrifter/aeblebade-med-peanutbutter-og-kanel.html" />
+  <!-- og:image bliver sat dynamisk til opskriftens billede via JS (fallback til hero) -->
   <meta property="og:image" content="https://www.sund-snack.dk/assets/images/hero.jpg" />
 
   <meta name="theme-color" content="#16a34a" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <script src="/assets/site.js" defer></script>
 
-  <!-- Recipe schema injiceres dynamisk -->
+  <!-- Recipe schema bliver injiceret korrekt med rigtigt billede + nutrition fra opskrifter.json -->
   <script id="recipeSchema" type="application/ld+json">{}</script>
+
+  <style>
+    .container{width:min(1100px, calc(100% - 2rem));margin:0 auto}
+
+    .recipe{padding:22px 0 56px}
+
+    .recipe-head{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+    .recipe-title{margin:0;font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:900;letter-spacing:-.02em}
+    .recipe-sub{margin:0;color:rgba(11,18,32,.72);font-weight:600;max-width:78ch}
+
+    /* top layout with image left */
+    .recipe-top{
+      display:grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap:18px;
+      align-items:start;
+      margin-top:14px;
+    }
+    @media (max-width:980px){.recipe-top{grid-template-columns:1fr}}
+
+    .recipe-photo{
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(11,18,32,.10);
+      box-shadow:0 18px 60px rgba(11,18,32,.10);
+      background:#fff;
+    }
+    .recipe-photo img{width:100%;height:420px;object-fit:cover;display:block}
+    @media (max-width:980px){.recipe-photo img{height:300px}}
+
+    .cardx{
+      background:#fff;
+      border:1px solid rgba(11,18,32,.10);
+      border-radius:18px;
+      box-shadow:0 8px 22px rgba(11,18,32,.08);
+      padding:16px;
+    }
+    .cardx h2,.cardx h3{margin:0 0 10px;font-size:1.1rem;font-weight:950;letter-spacing:-.01em}
+    .cardx p{margin:0 0 10px;color:rgba(11,18,32,.75);font-weight:600}
+    .list{margin:0;padding-left:18px;color:rgba(11,18,32,.78);font-weight:650}
+    .list li{margin:8px 0}
+
+    .meta-pills{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:.48rem .75rem;border-radius:999px;border:1px solid rgba(11,18,32,.12);background:rgba(11,18,32,.03);font-weight:900}
+
+    /* Save button with RED filled heart */
+    .save-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:.68rem .95rem;
+      border-radius:999px;
+      border:1px solid rgba(11,18,32,.12);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      transition:transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    .save-btn:active{transform:scale(.98)}
+    .save-btn .heart{
+      width:18px;height:18px;display:inline-block;
+    }
+    .save-btn .heart path{
+      fill:transparent;
+      stroke:currentColor;
+      stroke-width:2;
+      transition:fill .15s ease, stroke .15s ease;
+    }
+    .save-btn.is-saved{
+      border-color:rgba(220,38,38,.30);
+      background:rgba(220,38,38,.07);
+      color:#b91c1c;
+    }
+    .save-btn.is-saved .heart path{
+      fill:#ef4444;
+      stroke:#ef4444;
+    }
+
+    .nutri{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+    .nutri .pill{justify-content:space-between;width:100%}
+
+    .related-wrap{margin-top:22px}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+    @media (max-width:980px){.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.related-grid{grid-template-columns:1fr}}
+    .mini-card{background:#fff;border:1px solid rgba(11,18,32,.10);border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(11,18,32,.08);transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+    .mini-card:hover{transform:translateY(-2px);border-color:rgba(22,163,74,.25);box-shadow:0 14px 34px rgba(11,18,32,.10)}
+    .mini-thumb{height:140px;background-size:cover;background-position:center;background-color:rgba(11,18,32,.05)}
+    .mini-body{padding:12px}
+    .mini-title{margin:0 0 6px;font-weight:950;letter-spacing:-.01em}
+    .mini-desc{margin:0;color:rgba(11,18,32,.72);font-weight:650}
+
+    .empty{padding:22px;border:1px dashed rgba(11,18,32,.18);border-radius:18px;background:rgba(11,18,32,.02)}
+    .empty h3{margin:0 0 6px}
+  </style>
 </head>
 
 <body>
@@ -30,23 +127,25 @@
       <header class="recipe-head">
         <h1 class="recipe-title">Æblebåde med peanutbutter og kanel</h1>
         <p class="recipe-sub">
-          Æblebåde med peanutbutter og kanel er en af de hurtigste sunde snacks, du kan lave.
-          Sprøde æbler, cremet peanutbutter og et drys kanel giver en perfekt balance mellem sødt og mættende.
-          Klar på 2 minutter – og elsket af både børn og voksne.
+          Æblebåde med peanutbutter og kanel er en af de hurtigste sunde snacks du kan lave. Du får sprødhed fra æblerne,
+          god mæthed fra peanutbutter og en varm, sød smag fra kanel. Det er en snack der passer perfekt til madpakken,
+          efter træning eller når den søde tand melder sig – uden at du skal tænde ovn eller finde en masse ingredienser frem.
         </p>
       </header>
 
       <section class="recipe-top">
+        <!-- LEFT: Recipe image (from JSON) -->
         <figure class="recipe-photo">
           <img id="recipeImage" src="/assets/images/hero.jpg" alt="Æblebåde med peanutbutter og kanel – sund snack" loading="eager" />
         </figure>
 
+        <!-- RIGHT: Meta + Save + Nutrition -->
         <aside class="cardx">
-          <div class="meta-pills">
+          <div class="meta-pills" aria-label="Hurtigt overblik">
             <span class="pill">Tid: <strong id="metaMinutes">2 min</strong></span>
             <span class="pill">Portioner: <strong>1 portion</strong></span>
             <span class="pill">Niveau: <strong id="metaLevel">Nem</strong></span>
-            <span class="pill">Uden bagning</span>
+            <span class="pill">Uden bagning: <strong>Ja</strong></span>
           </div>
 
           <button
@@ -64,7 +163,7 @@
           </button>
 
           <h2 style="margin-top:16px;">Næringsindhold</h2>
-          <p>Beregnet pr. <strong>1 portion</strong>. Tal er vejledende.</p>
+          <p>Beregnet pr. <strong>1 portion</strong>. Tal er vejledende og afhænger af mærker.</p>
 
           <div class="nutri" id="nutriGrid">
             <span class="pill">Kcal <strong>–</strong></span>
@@ -79,46 +178,51 @@
         <article class="cardx">
           <h2>Ingredienser</h2>
           <ul class="list">
-            <li>1 stort æble</li>
+            <li>1 stort æble (eller 2 små)</li>
             <li>1–2 spsk peanutbutter</li>
             <li>½ tsk kanel</li>
-            <li>Evt. lidt honning (valgfrit)</li>
+            <li>Evt. 1 tsk honning eller ahornsirup (valgfrit)</li>
+            <li>Evt. topping: hakkede nødder, kokos eller et par stykker mørk chokolade (valgfrit)</li>
           </ul>
 
           <h2 style="margin-top:16px;">Sådan gør du</h2>
           <ol class="list">
-            <li>Skyl æblet og skær det i både.</li>
-            <li>Smør peanutbutter på hver æblebåd.</li>
-            <li>Drys med kanel og evt. lidt honning.</li>
-            <li>Server med det samme – færdig!</li>
+            <li>Skyl æblet og skær det i både. Fjern kernehus.</li>
+            <li>Fordel peanutbutter på æblebådene (smør et tyndt lag eller lav små “klatter”).</li>
+            <li>Drys kanel over. Tilføj evt. en smule honning for ekstra sødme.</li>
+            <li>Top evt. med lidt nødder/kokos/chokolade for crunch.</li>
+            <li>Server med det samme.</li>
           </ol>
         </article>
 
         <aside class="cardx">
           <h2>Tips og varianter</h2>
           <ul class="list">
-            <li><strong>Børnevenlig:</strong> Brug mild peanutbutter uden sukker.</li>
-            <li><strong>Crunch:</strong> Drys med hakkede nødder eller kokos.</li>
-            <li><strong>Chokolade:</strong> Lidt revet mørk chokolade på toppen.</li>
-            <li><strong>Nøddefri:</strong> Brug solsikkesmør i stedet.</li>
+            <li><strong>Børnevenlig:</strong> brug en mild peanutbutter og hold honning på et minimum.</li>
+            <li><strong>Mere crunch:</strong> drys med hakkede nødder eller ristede kerner.</li>
+            <li><strong>Nøddefri:</strong> brug solsikkesmør eller tahin i stedet for peanutbutter.</li>
+            <li><strong>Choko:</strong> drys med 1 tsk kakao eller et par små stykker mørk chokolade.</li>
+            <li><strong>Madpakke:</strong> pak æblebåde og peanutbutter separat, så de ikke bliver bløde.</li>
           </ul>
 
           <h2 style="margin-top:16px;">Opbevaring</h2>
-          <p>Spises bedst med det samme. Kan dog holde 2–3 timer i køleskab i lukket bøtte.</p>
+          <p>Spises bedst med det samme. Hvis du vil forberede, så opbevar æblebåde og peanutbutter separat og saml lige inden servering.</p>
         </aside>
       </section>
 
       <section class="cardx" style="margin-top:18px;">
         <h2>Konklusion</h2>
         <p>
-          Æblebåde med peanutbutter og kanel er den perfekte løsning, når du vil have noget sundt, hurtigt og lækkert.
-          En snack der kræver minimal indsats – men giver maksimal tilfredshed.
+          Æblebåde med peanutbutter og kanel er den perfekte “2-minutters snack”, når du vil have noget hurtigt, mættende og sundt.
+          Den kræver ingen bagning, næsten ingen oprydning, og du kan variere den på få sekunder alt efter humør og hvad du har i skabet.
         </p>
       </section>
 
       <section class="related-wrap">
-        <h2>Relaterede opskrifter</h2>
-        <p class="muted">Vi viser automatisk opskrifter med lignende kategorier og tags.</p>
+        <h2 style="margin:0;font-size:1.2rem;font-weight:950;letter-spacing:-.01em;">Relaterede opskrifter</h2>
+        <p class="muted" style="margin:6px 0 0;color:rgba(11,18,32,.68);font-weight:650;">
+          Vi finder automatisk opskrifter med samme kategorier eller tags.
+        </p>
         <div id="relatedGrid" class="related-grid"></div>
       </section>
     </div>
@@ -127,8 +231,9 @@
   <div id="siteFooter"></div>
 
   <script>
-    async function loadPartial(id, url){
-      const el = document.getElementById(id);
+    // Partials
+    async function loadPartial(mountId, url) {
+      const el = document.getElementById(mountId);
       if (!el) return;
       try {
         const res = await fetch(url, { cache: "no-store" });
@@ -138,6 +243,7 @@
     loadPartial("siteHeader", "/partials/header.html");
     loadPartial("siteFooter", "/partials/footer.html");
 
+    // Load recipe from opskrifter.json to set correct image + nutrition + schema + related
     (async () => {
       const SLUG = "aeblebade-med-peanutbutter-og-kanel";
       let recipe = null;
@@ -146,57 +252,160 @@
         const res = await fetch("/assets/opskrifter.json", { cache: "no-store" });
         const data = await res.json();
         const list = Array.isArray(data) ? data : (data.recipes || []);
-        recipe = list.find(x => x && x.id === SLUG) || null;
+        recipe = (list || []).find(x => x && x.id === SLUG) || null;
 
-        if (!recipe) return;
+        // If URL is used instead of id as fallback
+        if (!recipe) {
+          recipe = (list || []).find(x => x && x.url && x.url.includes("aeblebade-med-peanutbutter-og-kanel")) || null;
+        }
 
-        document.getElementById("recipeImage").src = recipe.image;
-        document.querySelector('meta[property="og:image"]').content =
-          "https://www.sund-snack.dk" + recipe.image;
+        // Apply image
+        const img = document.getElementById("recipeImage");
+        const ogImg = document.querySelector('meta[property="og:image"]');
+        if (img) {
+          const src = recipe && recipe.image ? recipe.image : "/assets/images/hero.jpg";
+          img.src = src;
+          img.alt = (recipe && recipe.title ? recipe.title : "Æblebåde med peanutbutter og kanel") + " – sund snack";
+        }
+        if (ogImg && recipe && recipe.image) {
+          ogImg.setAttribute("content", "https://www.sund-snack.dk" + recipe.image);
+        }
 
+        // Update save button data-image
         const saveBtn = document.querySelector("[data-save-recipe]");
-        saveBtn.setAttribute("data-image", recipe.image);
+        if (saveBtn && recipe && recipe.image) {
+          saveBtn.setAttribute("data-image", recipe.image);
+        }
 
-        if (recipe.minutes) document.getElementById("metaMinutes").textContent = recipe.minutes + " min";
-        if (recipe.level) document.getElementById("metaLevel").textContent = recipe.level;
+        // Meta minutes/level
+        const mm = document.getElementById("metaMinutes");
+        const ml = document.getElementById("metaLevel");
+        if (mm && recipe && recipe.minutes) mm.textContent = recipe.minutes + " min";
+        if (ml && recipe && recipe.level) ml.textContent = recipe.level;
 
-        if (recipe.nutrition) {
-          const n = recipe.nutrition;
-          document.getElementById("nutriGrid").innerHTML = `
-            <span class="pill">Kcal <strong>${n.calories}</strong></span>
-            <span class="pill">Protein <strong>${n.protein} g</strong></span>
-            <span class="pill">Kulhydrat <strong>${n.carbohydrates} g</strong></span>
-            <span class="pill">Fedt <strong>${n.fat} g</strong></span>
+        // Nutrition UI
+        const nutriGrid = document.getElementById("nutriGrid");
+        const n = recipe && recipe.nutrition ? recipe.nutrition : null;
+        if (nutriGrid && n) {
+          nutriGrid.innerHTML = `
+            <span class="pill">Kcal <strong>${n.calories ?? "–"}</strong></span>
+            <span class="pill">Protein <strong>${n.protein ?? "–"} g</strong></span>
+            <span class="pill">Kulhydrat <strong>${n.carbohydrates ?? "–"} g</strong></span>
+            <span class="pill">Fedt <strong>${n.fat ?? "–"} g</strong></span>
           `;
         }
+
+        // Inject Recipe schema (uses correct image + nutrition)
+        const schemaEl = document.getElementById("recipeSchema");
+        const imgAbs = (recipe && recipe.image) ? ("https://www.sund-snack.dk" + recipe.image) : "https://www.sund-snack.dk/assets/images/hero.jpg";
 
         const schema = {
           "@context":"https://schema.org",
           "@type":"Recipe",
           "@id":"https://www.sund-snack.dk/opskrifter/aeblebade-med-peanutbutter-og-kanel.html#recipe",
           "name":"Æblebåde med peanutbutter og kanel",
-          "image":["https://www.sund-snack.dk" + recipe.image],
+          "description":"Æblebåde med peanutbutter og kanel – nem, børnevenlig og sund snack uden bagning. Inkl. næringsindhold, tips og varianter.",
+          "image":[imgAbs],
           "author":{"@type":"Organization","name":"Sund Snack"},
+          "datePublished":"2026-02-05",
+          "dateModified":"2026-02-05",
           "inLanguage":"da-DK",
           "prepTime":"PT2M",
+          "cookTime":"PT0M",
           "totalTime":"PT2M",
           "recipeYield":"1 portion",
-          "recipeCategory": recipe.categories,
-          "keywords": recipe.tags.join(", "),
+          "recipeCategory": (recipe && recipe.categories) ? recipe.categories : ["snacks"],
+          "keywords": (recipe && recipe.tags) ? recipe.tags.join(", ") : "æble, peanutbutter, kanel, snack, uden bagning",
           "recipeIngredient":[
-            "1 æble",
+            "1 stort æble",
             "1–2 spsk peanutbutter",
-            "½ tsk kanel"
+            "½ tsk kanel",
+            "Evt. 1 tsk honning (valgfrit)"
           ],
           "recipeInstructions":[
-            {"@type":"HowToStep","text":"Skær æblet i både."},
-            {"@type":"HowToStep","text":"Smør peanutbutter på æblebådene."},
-            {"@type":"HowToStep","text":"Drys med kanel og server."}
+            {"@type":"HowToStep","text":"Skyl æblet og skær det i både. Fjern kernehus."},
+            {"@type":"HowToStep","text":"Fordel peanutbutter på æblebådene."},
+            {"@type":"HowToStep","text":"Drys med kanel og evt. lidt honning. Server."}
           ]
         };
 
-        document.getElementById("recipeSchema").textContent = JSON.stringify(schema);
-      } catch {}
+        if (n) {
+          schema.nutrition = {
+            "@type":"NutritionInformation",
+            "calories": String(n.calories ?? "") + " kcal",
+            "proteinContent": String(n.protein ?? "") + " g",
+            "carbohydrateContent": String(n.carbohydrates ?? "") + " g",
+            "fatContent": String(n.fat ?? "") + " g"
+          };
+        }
+
+        if (schemaEl) schemaEl.textContent = JSON.stringify(schema);
+
+        // Related recipes
+        const relatedGrid = document.getElementById("relatedGrid");
+        if (relatedGrid) {
+          const currentCats = new Set(((recipe && recipe.categories) || []).map(x => String(x).toLowerCase()));
+          const currentTags = new Set(((recipe && recipe.tags) || []).map(x => String(x).toLowerCase()));
+
+          function score(item){
+            const cats = new Set((item.categories || []).map(x => String(x).toLowerCase()));
+            const tags = new Set((item.tags || []).map(x => String(x).toLowerCase()));
+            let s = 0;
+            currentCats.forEach(c => { if (cats.has(c)) s += 3; });
+            currentTags.forEach(t => { if (tags.has(t)) s += 2; });
+            return s;
+          }
+
+          const related = (list || [])
+            .filter(x => x && x.url && (!recipe || x.id !== recipe.id))
+            .map(x => ({...x, _score: score(x)}))
+            .filter(x => x._score > 0)
+            .sort((a,b) => b._score - a._score)
+            .slice(0, 3);
+
+          if (!related.length) {
+            relatedGrid.innerHTML = `
+              <div class="empty" style="grid-column:1/-1">
+                <h3>Ingen relaterede opskrifter endnu</h3>
+                <p class="muted">Tilføj 2–3 opskrifter mere i opskrifter.json, så viser vi dem automatisk her.</p>
+              </div>
+            `;
+          } else {
+            relatedGrid.innerHTML = related.map(r => `
+              <article class="mini-card">
+                <a class="card-link" href="${r.url}">
+                  <div class="mini-thumb" style="background-image:url('${r.image || ""}')"></div>
+                  <div class="mini-body">
+                    <h3 class="mini-title">${r.title || "Opskrift"}</h3>
+                    <p class="mini-desc">${r.description || ""}</p>
+                  </div>
+                </a>
+              </article>
+            `).join("");
+          }
+        }
+
+      } catch (e) {
+        // fail silently
+      }
+
+      // Save button UI feedback – listens to existing site.js storage
+      const saveBtn = document.querySelector("[data-save-recipe]");
+      const saveLabel = document.getElementById("saveLabel");
+
+      function syncSavedUI(){
+        if (!saveBtn) return;
+        const pressed = saveBtn.getAttribute("aria-pressed") === "true";
+        saveBtn.classList.toggle("is-saved", pressed);
+        if (saveLabel) saveLabel.textContent = pressed ? "Gemt" : "Gem opskrift";
+      }
+
+      setTimeout(syncSavedUI, 60);
+      document.addEventListener("ss:saved-updated", () => setTimeout(syncSavedUI, 0));
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("[data-save-recipe]")) return;
+        setTimeout(syncSavedUI, 0);
+      });
     })();
   </script>
 </body>
