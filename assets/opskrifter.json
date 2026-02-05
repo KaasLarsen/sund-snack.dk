@@ -27,6 +27,23 @@
     }
   },
   {
+  "id": "skyr-med-honning-og-noedder",
+  "title": "Skyr med honning og nødder",
+  "url": "/opskrifter/skyr-med-honning-og-noedder.html",
+  "image": "/assets/images/recipes/skyr-med-honning-og-noedder-768x768.jpg",
+  "description": "Skyr med honning og nødder – en nem proteinrig sund snack på 5 minutter. Perfekt til morgenmad, efter træning og madpakken.",
+  "categories": ["snacks", "sunde snacks", "protein"],
+  "tags": ["skyr", "honning", "nødder", "hurtig snack", "proteinrig"],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 290,
+    "protein": 28,
+    "carbohydrates": 20,
+    "fat": 10
+  }
+},
+  {
   "id": "chiapudding-med-vanilje-og-baer",
   "title": "Chiapudding med vanilje og bær",
   "url": "/opskrifter/chiapudding-med-vanilje-og-baer.html",
