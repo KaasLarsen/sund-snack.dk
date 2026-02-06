@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "riskiks-med-peanutbutter-og-banan",
+  "title": "Riskiks med peanutbutter og banan",
+  "url": "/opskrifter/riskiks-med-peanutbutter-og-banan.html",
+  "image": "/assets/images/recipes/riskiks-med-peanutbutter-og-banan-768x768.jpg",
+  "description": "Riskiks med peanutbutter og banan – hurtig sund snack på 5 minutter. Perfekt til madpakken, før træning eller som sød hyggesnack.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "hurtig snack"
+  ],
+  "tags": [
+    "riskiks",
+    "peanutbutter",
+    "banan",
+    "pre-workout",
+    "madpakke"
+  ],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 320,
+    "protein": 9,
+    "carbohydrates": 34,
+    "fat": 16
+  }
+},
+  {
   "id": "aeble-nachos-med-peanutbutter-og-chokolade",
   "title": "Æble-nachos med peanutbutter og chokolade",
   "url": "/opskrifter/aeble-nachos-med-peanutbutter-og-chokolade.html",
