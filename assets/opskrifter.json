@@ -27,6 +27,24 @@
     }
   },
   {
+  "id": "sproede-ostebidder",
+  "title": "Sprøde ostebidder – sund snack med højt proteinindhold",
+  "url": "/opskrifter/sproede-ostebidder.html",
+  "image": "/assets/images/recipes/sproede-ostebidder-768.jpg",
+  "description": "Sprøde ostebidder er en nem og sund snack med højt proteinindhold og lavt kulhydratindhold. Kan laves i ovn eller airfryer. Inkl. næringsindhold, tips og variationer.",
+  "minutes": 12,
+  "servings": 2,
+  "level": "Nem",
+  "categories": ["snacks", "sund snack", "proteinrige snacks"],
+  "tags": ["ostebidder", "sprød snack", "salt snack", "protein", "airfryer", "ovn", "lav kulhydrat", "keto"],
+  "nutrition": {
+    "calories": 410,
+    "protein": 30,
+    "carbohydrates": 2,
+    "fat": 32
+  }
+},
+  {
   "id": "sproede-ristede-kikaerter",
   "title": "Sprøde ristede kikærter – sund snack med højt proteinindhold",
   "url": "/opskrifter/sproede-ristede-kikaerter.html",
