@@ -5,21 +5,139 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Sprøde ostebidder – sund snack med højt proteinindhold</title>
-  <meta name="description" content="Sprøde ostebidder er en nem og sund snack med højt proteinindhold og lavt kulhydratindhold. Kan laves i ovn eller airfryer. Inkl. næringsindhold, tips og variationer." />
+  <meta name="description" content="Sprøde ostebidder – nem og sund snack med højt proteinindhold. Kan laves i ovn eller airfryer. Inkl. næringsindhold (kcal, protein, kulhydrat, fedt), tips, variationer og opbevaring." />
   <link rel="canonical" href="https://www.sund-snack.dk/opskrifter/sproede-ostebidder.html" />
 
   <meta property="og:title" content="Sprøde ostebidder – sund snack med højt proteinindhold" />
-  <meta property="og:description" content="Nem, sprød og proteinrig snack lavet af ost. Perfekt alternativ til chips – både i ovn og airfryer." />
+  <meta property="og:description" content="Sprøde ostebidder er et nemt alternativ til chips. Høj protein, lavt kulhydrat, og klar på få minutter. Både ovn og airfryer." />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://www.sund-snack.dk/opskrifter/sproede-ostebidder.html" />
+  <!-- og:image bliver sat dynamisk til opskriftens billede via JS (fallback til hero) -->
   <meta property="og:image" content="https://www.sund-snack.dk/assets/images/hero.jpg" />
 
   <meta name="theme-color" content="#16a34a" />
   <link rel="stylesheet" href="/assets/styles.css" />
   <script src="/assets/site.js" defer></script>
 
-  <!-- Recipe schema injiceres dynamisk -->
+  <!-- Recipe schema bliver injiceret korrekt med rigtigt billede + nutrition fra opskrifter.json -->
   <script id="recipeSchema" type="application/ld+json">{}</script>
+
+  <style>
+    .container{width:min(1100px, calc(100% - 2rem));margin:0 auto}
+
+    .recipe{padding:22px 0 56px}
+
+    .recipe-head{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+    .recipe-title{margin:0;font-size:clamp(1.9rem,3.2vw,2.6rem);font-weight:900;letter-spacing:-.02em}
+    .recipe-sub{margin:0;color:rgba(11,18,32,.72);font-weight:600;max-width:78ch}
+
+    /* NEW: top layout with image left */
+    .recipe-top{
+      display:grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap:18px;
+      align-items:start;
+      margin-top:14px;
+    }
+    @media (max-width:980px){.recipe-top{grid-template-columns:1fr}}
+
+    .recipe-photo{
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(11,18,32,.10);
+      box-shadow:0 18px 60px rgba(11,18,32,.10);
+      background:#fff;
+    }
+    .recipe-photo img{width:100%;height:420px;object-fit:cover;display:block}
+    @media (max-width:980px){.recipe-photo img{height:300px}}
+
+    .cardx{
+      background:#fff;
+      border:1px solid rgba(11,18,32,.10);
+      border-radius:18px;
+      box-shadow:0 8px 22px rgba(11,18,32,.08);
+      padding:16px;
+    }
+    .cardx h2,.cardx h3{margin:0 0 10px;font-size:1.1rem;font-weight:950;letter-spacing:-.01em}
+    .cardx p{margin:0 0 10px;color:rgba(11,18,32,.75);font-weight:600}
+    .list{margin:0;padding-left:18px;color:rgba(11,18,32,.78);font-weight:650}
+    .list li{margin:8px 0}
+
+    .meta-pills{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px}
+    .pill{display:inline-flex;align-items:center;gap:8px;padding:.48rem .75rem;border-radius:999px;border:1px solid rgba(11,18,32,.12);background:rgba(11,18,32,.03);font-weight:900}
+
+    /* Save button with RED filled heart */
+    .save-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:.68rem .95rem;
+      border-radius:999px;
+      border:1px solid rgba(11,18,32,.12);
+      background:#fff;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      transition:transform .08s ease, background .15s ease, border-color .15s ease;
+    }
+    .save-btn:active{transform:scale(.98)}
+    .save-btn .heart{
+      width:18px;height:18px;display:inline-block;
+    }
+    .save-btn .heart path{
+      fill:transparent;
+      stroke:currentColor;
+      stroke-width:2;
+      transition:fill .15s ease, stroke .15s ease;
+    }
+    .save-btn.is-saved{
+      border-color:rgba(220,38,38,.30);
+      background:rgba(220,38,38,.07);
+      color:#b91c1c;
+    }
+    .save-btn.is-saved .heart path{
+      fill:#ef4444;
+      stroke:#ef4444;
+    }
+
+    .nutri{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+    .nutri .pill{justify-content:space-between;width:100%}
+
+    .related-wrap{margin-top:22px}
+    .related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:12px}
+    @media (max-width:980px){.related-grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.related-grid{grid-template-columns:1fr}}
+    .mini-card{background:#fff;border:1px solid rgba(11,18,32,.10);border-radius:18px;overflow:hidden;box-shadow:0 6px 18px rgba(11,18,32,.08);transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease}
+    .mini-card:hover{transform:translateY(-2px);border-color:rgba(22,163,74,.25);box-shadow:0 14px 34px rgba(11,18,32,.10)}
+    .mini-thumb{height:140px;background-size:cover;background-position:center;background-color:rgba(11,18,32,.05)}
+    .mini-body{padding:12px}
+    .mini-title{margin:0 0 6px;font-weight:950;letter-spacing:-.01em}
+    .mini-desc{margin:0;color:rgba(11,18,32,.72);font-weight:650}
+
+    .empty{padding:22px;border:1px dashed rgba(11,18,32,.18);border-radius:18px;background:rgba(11,18,32,.02)}
+    .empty h3{margin:0 0 6px}
+
+    .toc{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width:640px){.toc{grid-template-columns:1fr}}
+    .toc a{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(11,18,32,.10);
+      background:rgba(11,18,32,.02);
+      text-decoration:none;
+      color:inherit;
+      font-weight:900;
+    }
+    .toc a:hover{border-color:rgba(22,163,74,.25);background:rgba(22,163,74,.06)}
+    .kbd{font-weight:950;color:rgba(11,18,32,.55)}
+  </style>
 </head>
 
 <body>
@@ -27,24 +145,25 @@
 
   <main class="recipe">
     <div class="container">
-
       <header class="recipe-head">
         <h1 class="recipe-title">Sprøde ostebidder</h1>
         <p class="recipe-sub">
-          Sprøde ostebidder er en af de nemmeste sunde snacks, hvis du vil have noget salt, sprødt og mættende.
-          De kræver kun få ingredienser og tager under 15 minutter at lave.
-          Ostebidderne er rige på protein, har lavt kulhydratindhold og fungerer perfekt som alternativ til chips.
-          Du kan lave dem både i ovn og airfryer – alt efter hvad du har mest lyst til.
+          Sprøde ostebidder er en af de mest tilfredsstillende sunde snacks, når du har lyst til noget salt og sprødt.
+          Du får den der “chips-følelse”, men med mere protein og næsten ingen kulhydrat.
+          Opskriften her er lavet, så den dækker både ovn og airfryer, og du får alle tricksene med, så du rammer sprødheden hver gang.
+          Når du først har prøvet dem, bliver det hurtigt en af de snacks, man laver igen og igen, fordi det er så nemt.
         </p>
       </header>
 
       <section class="recipe-top">
+        <!-- LEFT: Recipe image (from JSON) -->
         <figure class="recipe-photo">
           <img id="recipeImage" src="/assets/images/hero.jpg" alt="Sprøde ostebidder – sund snack" loading="eager" />
         </figure>
 
+        <!-- RIGHT: Meta + Save + Nutrition -->
         <aside class="cardx">
-          <div class="meta-pills">
+          <div class="meta-pills" aria-label="Hurtigt overblik">
             <span class="pill">Tid: <strong id="metaMinutes">12 min</strong></span>
             <span class="pill">Portioner: <strong id="metaServings">2</strong></span>
             <span class="pill">Niveau: <strong id="metaLevel">Nem</strong></span>
@@ -59,14 +178,17 @@
             data-url="/opskrifter/sproede-ostebidder.html"
             data-image="/assets/images/hero.jpg"
             aria-pressed="false">
-            <svg class="heart" viewBox="0 0 24 24">
+            <svg class="heart" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 21s-7-4.35-9.33-8.03C.5 9.5 2.28 5.5 6.5 5.5c2.03 0 3.57 1.1 4.5 2.2 0.93-1.1 2.47-2.2 4.5-2.2 4.22 0 6 4 3.83 7.47C19 16.65 12 21 12 21z"></path>
             </svg>
             <span id="saveLabel">Gem opskrift</span>
           </button>
 
           <h2 style="margin-top:16px;">Næringsindhold</h2>
-          <p>Beregnet pr. portion. Tal er vejledende og afhænger af ostetype.</p>
+          <p>
+            Beregnet pr. <strong>portion</strong>. Tal er vejledende og afhænger af ostetype.
+            Ost er naturligt proteinrigt, og derfor fungerer ostebidderne ekstra godt som snack, der faktisk mætter.
+          </p>
 
           <div class="nutri" id="nutriGrid">
             <span class="pill">Kcal <strong>–</strong></span>
@@ -74,151 +196,356 @@
             <span class="pill">Kulhydrat <strong>–</strong></span>
             <span class="pill">Fedt <strong>–</strong></span>
           </div>
+
+          <h3 style="margin-top:16px;">Hurtig navigation</h3>
+          <div class="toc" aria-label="Gå direkte til sektion">
+            <a href="#ingredienser">Ingredienser <span class="kbd">↘</span></a>
+            <a href="#forberedelse">Forberedelse <span class="kbd">↘</span></a>
+            <a href="#ovn">Ovn-metode <span class="kbd">↘</span></a>
+            <a href="#airfryer">Airfryer-metode <span class="kbd">↘</span></a>
+            <a href="#tips">Tips og varianter <span class="kbd">↘</span></a>
+            <a href="#fejlfinding">Fejlfinding <span class="kbd">↘</span></a>
+          </div>
         </aside>
       </section>
 
       <section class="recipe-grid" style="display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px">
-
         <article class="cardx">
-          <h2>Ingredienser</h2>
+          <h2 id="ingredienser">Ingredienser</h2>
           <p>
-            Du kan bruge flere typer ost til sprøde ostebidder.
-            Fast ost giver det bedste resultat, da den smelter og bliver sprød uden at flyde helt ud.
+            Du kan lave sprøde ostebidder med flere forskellige oste, og resultatet kan variere lidt.
+            Generelt gælder det, at hårdere oste ofte giver mere sprødhed, mens blødere oste kan flyde mere ud.
+            Hvis du vil have “chips-lignende” bid, er parmesan og gruyere sikre valg, mens cheddar giver en mere “snack-cookie” vibe.
           </p>
           <ul class="list">
-            <li>100 g revet ost (cheddar, mozzarella, gruyere eller parmesan)</li>
+            <li>100 g revet ost (cheddar, gruyere, mozzarella eller parmesan)</li>
             <li>½ tsk paprika eller chili (valgfrit)</li>
             <li>½ tsk oregano eller timian (valgfrit)</li>
             <li>Friskkværnet peber (valgfrit)</li>
+            <li>Evt. 1 tsk sesam eller chia til ekstra crunch (valgfrit)</li>
           </ul>
 
-          <h2 style="margin-top:16px;">Sådan gør du – ovn</h2>
+          <h2 id="forberedelse" style="margin-top:16px;">Forberedelse</h2>
           <p>
-            Ovn-metoden er god, hvis du laver flere ostebidder på én gang.
-            Brug bagepapir og hold øje mod slutningen, da ost hurtigt kan gå fra sprød til mørk.
+            Det vigtigste trick her er at lave små portioner med afstand.
+            Hvis du lægger ostebunkerne for tæt, smelter de sammen, og så ender du med én stor plade.
+            Det kan også være lækkert, men hvis du vil have små “bidder”, skal der være luft imellem.
+            Brug gerne revet ost fra blok, fordi den ofte smelter pænere end færdigrevet ost med antiklumpemiddel.
+          </p>
+          <ol class="list">
+            <li>Forbered en bageplade med bagepapir, eller en airfryer-kurv med bagepapir/indsats.</li>
+            <li>Lav små bunker revet ost. En god størrelse er 1–1½ spsk pr. bunke.</li>
+            <li>Drys krydderier ovenpå. Undgå for meget, da det kan brænde hurtigere end osten.</li>
+            <li>Hvis du vil have ekstra sprødhed, kan du trykke bunkerne let flade med en ske.</li>
+          </ol>
+
+          <h2 id="ovn" style="margin-top:16px;">Sådan gør du – ovn</h2>
+          <p>
+            Ovn-metoden er genial, hvis du vil lave mange ad gangen og få en jævn bagning.
+            Hold øje de sidste minutter, fordi ost kan gå fra perfekt gylden til for mørk ret hurtigt.
+            Når du tager dem ud, kan de virke lidt bløde, men de bliver sprøde, når de køler et par minutter.
           </p>
           <ol class="list">
             <li>Forvarm ovnen til <strong>200 °C varmluft</strong>.</li>
-            <li>Læg små bunker revet ost på en bageplade med bagepapir.</li>
-            <li>Drys evt. krydderier ovenpå.</li>
-            <li>Bag i <strong>6–8 minutter</strong>, til ostebidderne er gyldne.</li>
-            <li>Lad dem køle 2–3 minutter – de bliver sprøde, når de sætter sig.</li>
+            <li>Placer ostebunkerne med god afstand på bagepapiret.</li>
+            <li>Bag i <strong>6–9 minutter</strong>, til kanterne er gyldne og midten bobler.</li>
+            <li>Tag pladen ud og lad dem køle <strong>2–4 minutter</strong>, så de sætter sig og bliver sprøde.</li>
+            <li>Løsn dem forsigtigt med en paletkniv og server.</li>
           </ol>
 
-          <h2 style="margin-top:16px;">Sådan gør du – airfryer</h2>
+          <h2 id="airfryer" style="margin-top:16px;">Sådan gør du – airfryer</h2>
           <p>
-            Airfryer er perfekt til små portioner og giver meget sprøde ostebidder på kort tid.
-            Brug evt. bagepapir eller en perforeret indsats.
+            Airfryer giver ofte ekstra sprøde ostebidder på kort tid.
+            Her er det især vigtigt at holde øje, fordi der kan være stor forskel på airfryers.
+            Start hellere med lidt kortere tid, og giv 30–60 sekunder ekstra, hvis de mangler det sidste.
           </p>
           <ol class="list">
-            <li>Forvarm airfryer til <strong>190 °C</strong>.</li>
-            <li>Placer små bunker ost i kurven med afstand.</li>
-            <li>Tilbered i <strong>4–6 minutter</strong>, til de er sprøde og let gyldne.</li>
-            <li>Lad dem køle et par minutter før servering.</li>
+            <li>Forvarm airfryer i 2 minutter (valgfrit, men giver mere ens resultat).</li>
+            <li>Tilbered ved <strong>190 °C i 4–7 minutter</strong>.</li>
+            <li>Stop og tjek efter 4 minutter. De skal boble og være gyldne i kanten.</li>
+            <li>Lad dem køle <strong>2–3 minutter</strong> i kurven, så de bliver sprøde.</li>
+            <li>Tag dem ud og server med det samme.</li>
           </ol>
+
+          <h2 style="margin-top:16px;">Serveringsforslag</h2>
+          <p>
+            Ostebidder er lækre alene, men de bliver endnu bedre med noget friskt ved siden af.
+            Det giver balance, og det gør snacken mere “rigtig” som et lille måltid.
+            Du kan også bruge dem som topping på salat eller suppe, hvis du vil have crunch uden croutoner.
+          </p>
+          <ul class="list">
+            <li>Spis dem med agurk, gulerod og peberfrugt for en frisk snack-tallerken.</li>
+            <li>Brug dem som “chips” til en skyr-dip med hvidløg og citron.</li>
+            <li>Smuldr dem over salat for ekstra sprødhed.</li>
+            <li>Lav en lille snack-skål med oliven og nødder ved siden af.</li>
+          </ul>
         </article>
 
         <aside class="cardx">
-          <h2>Tips og variationer</h2>
+          <h2 id="tips">Tips og varianter</h2>
+          <p>
+            Du kan skifte smagen på få sekunder.
+            Det er en af de snacks, hvor små justeringer giver stor effekt.
+            Hvis du vil lave flere varianter på én gang, kan du lave halvdelen med chili og halvdelen med urter.
+          </p>
           <ul class="list">
-            <li><strong>Ekstra protein:</strong> Brug skyr- eller proteinost.</li>
-            <li><strong>Spicy:</strong> Tilsæt chili eller cayenne.</li>
-            <li><strong>Italiensk:</strong> Oregano + lidt hvidløgspulver.</li>
-            <li><strong>Ultra sprød:</strong> Brug parmesan eller gruyere.</li>
-            <li><strong>Form:</strong> Lav dem som flade chips eller små “cookies”.</li>
+            <li><strong>Spicy:</strong> chili eller cayenne giver “snack-kick”.</li>
+            <li><strong>Italiensk:</strong> oregano + timian + lidt hvidløgspulver.</li>
+            <li><strong>Ekstra sprød:</strong> brug parmesan eller gruyere.</li>
+            <li><strong>Mild og børnevenlig:</strong> mozzarella + lidt paprika.</li>
+            <li><strong>Crunch:</strong> drys sesam eller chia ovenpå før tilberedning.</li>
+          </ul>
+
+          <h2 id="fejlfinding" style="margin-top:16px;">Fejlfinding</h2>
+          <p>
+            Hvis dine ostebidder ikke bliver som du ønsker, er det næsten altid en af de her ting.
+            Ret én ting ad gangen, så rammer du den perfekte sprødhed næste gang.
+          </p>
+          <ul class="list">
+            <li><strong>De flyder for meget ud:</strong> lav mindre bunker og brug en hårdere ost.</li>
+            <li><strong>De bliver ikke sprøde:</strong> giv dem 1–2 minutter ekstra og lad dem køle længere.</li>
+            <li><strong>De bliver for mørke:</strong> sænk tiden og hold øje de sidste minutter.</li>
+            <li><strong>De hænger fast:</strong> brug bagepapir og lad dem sætte sig før du løfter dem.</li>
           </ul>
 
           <h2 style="margin-top:16px;">Opbevaring</h2>
           <p>
-            Ostebidder smager bedst samme dag.
-            Hvis de mister sprødhed, kan de genopvarmes 1–2 minutter i airfryer eller ovn.
+            Ostebidder er bedst samme dag.
+            Hvis du gemmer dem, kan de blive blødere, fordi de trækker fugt.
+            Du kan dog nemt gøre dem sprøde igen ved at give dem 1–2 minutter i airfryer eller ovn.
+            Lad dem altid køle helt af før du lægger dem i en bøtte.
           </p>
         </aside>
-
       </section>
 
       <section class="cardx" style="margin-top:18px;">
         <h2>Konklusion</h2>
         <p>
-          Sprøde ostebidder er en perfekt sund snack, når du vil have noget salt og sprødt uden unødige kulhydrater.
-          De er hurtige at lave, nemme at variere og mætter overraskende godt.
-          En oplagt snack til både hverdag, filmhygge og som supplement til madpakken.
+          Sprøde ostebidder er en genial sund snack, når du vil have noget salt og sprødt uden at gå i chips-skuffen.
+          De er hurtige at lave, nemme at variere og mætter mere end man lige forventer.
+          Brug ovn, når du vil lave mange, og brug airfryer, når du vil have dem hurtigt.
+          Når du først har styr på tid og afstand, får du en stabil, sprød snack hver gang.
         </p>
       </section>
 
       <section class="related-wrap">
-        <h2>Relaterede opskrifter</h2>
-        <p class="muted">Vi finder automatisk sunde snacks med samme kategorier.</p>
+        <h2 style="margin:0;font-size:1.2rem;font-weight:950;letter-spacing:-.01em;">Relaterede opskrifter</h2>
+        <p class="muted" style="margin:6px 0 0;color:rgba(11,18,32,.68);font-weight:650;">
+          Vi finder automatisk opskrifter med samme kategorier eller tags.
+        </p>
         <div id="relatedGrid" class="related-grid"></div>
       </section>
-
     </div>
   </main>
 
   <div id="siteFooter"></div>
 
   <script>
-    async function loadPartial(id, url){
-      const el = document.getElementById(id);
-      if(!el) return;
-      try{
-        const res = await fetch(url,{cache:"no-store"});
+    // Partials
+    async function loadPartial(mountId, url) {
+      const el = document.getElementById(mountId);
+      if (!el) return;
+      try {
+        const res = await fetch(url, { cache: "no-store" });
         el.innerHTML = await res.text();
-      }catch{}
+      } catch {}
     }
-    loadPartial("siteHeader","/partials/header.html");
-    loadPartial("siteFooter","/partials/footer.html");
+    loadPartial("siteHeader", "/partials/header.html");
+    loadPartial("siteFooter", "/partials/footer.html");
 
-    (async()=>{
+    // Load recipe from opskrifter.json to set correct image + nutrition + schema + related
+    (async () => {
       const SLUG = "sproede-ostebidder";
-      const res = await fetch("/assets/opskrifter.json",{cache:"no-store"});
-      const list = await res.json();
-      const recipe = (list||[]).find(x=>x.id===SLUG);
+      let recipe = null;
 
-      if(recipe?.image){
-        document.getElementById("recipeImage").src = recipe.image;
-        document.querySelector('meta[property="og:image"]').content =
-          "https://www.sund-snack.dk"+recipe.image;
-      }
+      try {
+        const res = await fetch("/assets/opskrifter.json", { cache: "no-store" });
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data.recipes || []);
+        recipe = (list || []).find(x => x && x.id === SLUG) || null;
 
-      if(recipe?.nutrition){
-        document.getElementById("nutriGrid").innerHTML = `
-          <span class="pill">Kcal <strong>${recipe.nutrition.calories}</strong></span>
-          <span class="pill">Protein <strong>${recipe.nutrition.protein} g</strong></span>
-          <span class="pill">Kulhydrat <strong>${recipe.nutrition.carbohydrates} g</strong></span>
-          <span class="pill">Fedt <strong>${recipe.nutrition.fat} g</strong></span>
-        `;
-      }
-
-      const schema = {
-        "@context":"https://schema.org",
-        "@type":"Recipe",
-        "name":"Sprøde ostebidder",
-        "description":"Sprøde ostebidder – sund snack med højt proteinindhold. Kan laves i ovn eller airfryer.",
-        "image":["https://www.sund-snack.dk"+(recipe?.image||"/assets/images/hero.jpg")],
-        "author":{"@type":"Organization","name":"Sund Snack"},
-        "prepTime":"PT5M",
-        "cookTime":"PT7M",
-        "totalTime":"PT12M",
-        "recipeYield":"2 portioner",
-        "recipeCategory":["snacks"],
-        "recipeIngredient":[
-          "100 g revet ost",
-          "Krydderier efter smag"
-        ],
-        "recipeInstructions":[
-          {"@type":"HowToStep","text":"Fordel revet ost i små bunker."},
-          {"@type":"HowToStep","text":"Bag i ovn eller airfryer til gylden og sprød."}
-        ],
-        "nutrition":{
-          "@type":"NutritionInformation",
-          "calories": recipe?.nutrition?.calories+" kcal",
-          "proteinContent": recipe?.nutrition?.protein+" g",
-          "carbohydrateContent": recipe?.nutrition?.carbohydrates+" g",
-          "fatContent": recipe?.nutrition?.fat+" g"
+        // URL fallback
+        if (!recipe) {
+          recipe = (list || []).find(x => x && x.url && x.url.includes("sproede-ostebidder")) || null;
         }
-      };
-      document.getElementById("recipeSchema").textContent = JSON.stringify(schema);
+
+        // Apply image
+        const img = document.getElementById("recipeImage");
+        const ogImg = document.querySelector('meta[property="og:image"]');
+        if (img) {
+          const src = recipe && recipe.image ? recipe.image : "/assets/images/hero.jpg";
+          img.src = src;
+          img.alt = (recipe && recipe.title ? recipe.title : "Sprøde ostebidder") + " – sund snack";
+        }
+        if (ogImg && recipe && recipe.image) {
+          ogImg.setAttribute("content", "https://www.sund-snack.dk" + recipe.image);
+        }
+
+        // Update save button data-image/title/url
+        const saveBtn = document.querySelector("[data-save-recipe]");
+        if (saveBtn && recipe && recipe.image) saveBtn.setAttribute("data-image", recipe.image);
+        if (saveBtn && recipe && recipe.title) saveBtn.setAttribute("data-title", recipe.title);
+        if (saveBtn && recipe && recipe.url) saveBtn.setAttribute("data-url", recipe.url);
+
+        // Meta minutes/level/servings
+        const mm = document.getElementById("metaMinutes");
+        const ml = document.getElementById("metaLevel");
+        const ms = document.getElementById("metaServings");
+        if (mm && recipe && recipe.minutes) mm.textContent = recipe.minutes + " min";
+        if (ml && recipe && recipe.level) ml.textContent = recipe.level;
+        if (ms && recipe && recipe.servings) ms.textContent = recipe.servings;
+
+        // Nutrition UI
+        const nutriGrid = document.getElementById("nutriGrid");
+        const n = recipe && recipe.nutrition ? recipe.nutrition : null;
+        if (nutriGrid && n) {
+          nutriGrid.innerHTML = `
+            <span class="pill">Kcal <strong>${n.calories ?? "–"}</strong></span>
+            <span class="pill">Protein <strong>${n.protein ?? "–"} g</strong></span>
+            <span class="pill">Kulhydrat <strong>${n.carbohydrates ?? "–"} g</strong></span>
+            <span class="pill">Fedt <strong>${n.fat ?? "–"} g</strong></span>
+          `;
+        }
+
+        // Inject Recipe schema
+        const schemaEl = document.getElementById("recipeSchema");
+        const imgAbs = (recipe && recipe.image)
+          ? ("https://www.sund-snack.dk" + recipe.image)
+          : "https://www.sund-snack.dk/assets/images/hero.jpg";
+
+        const dateISO = "2026-02-06";
+
+        const schema = {
+          "@context":"https://schema.org",
+          "@type":"Recipe",
+          "@id":"https://www.sund-snack.dk/opskrifter/sproede-ostebidder.html#recipe",
+          "mainEntityOfPage":"https://www.sund-snack.dk/opskrifter/sproede-ostebidder.html",
+          "name":"Sprøde ostebidder",
+          "description":"Sprøde ostebidder – nem og sund snack med højt proteinindhold. Kan laves i ovn eller airfryer. Inkl. næringsindhold, tips og variationer.",
+          "image":[imgAbs],
+          "author":{"@type":"Organization","name":"Sund Snack"},
+          "publisher":{"@type":"Organization","name":"Sund Snack"},
+          "datePublished":dateISO,
+          "dateModified":dateISO,
+          "inLanguage":"da-DK",
+          "prepTime":"PT5M",
+          "cookTime":"PT7M",
+          "totalTime":"PT12M",
+          "recipeYield": (recipe && recipe.servings) ? (String(recipe.servings) + " portioner") : "2 portioner",
+          "recipeCategory": (recipe && recipe.categories) ? recipe.categories : ["snacks"],
+          "keywords": (recipe && recipe.tags) ? recipe.tags.join(", ") : "ostebidder, sprød snack, sund snack, protein, airfryer, ovn",
+          "recipeIngredient":[
+            "100 g revet ost (cheddar, gruyere, mozzarella eller parmesan)",
+            "Krydderier efter smag (paprika, chili, oregano, peber)",
+            "Evt. sesam eller chia (valgfrit)"
+          ],
+          "recipeInstructions":[
+            {
+              "@type":"HowToSection",
+              "name":"Forberedelse",
+              "itemListElement":[
+                {"@type":"HowToStep","text":"Forbered bagepapir på bageplade eller i airfryer-kurv."},
+                {"@type":"HowToStep","text":"Lav små bunker revet ost med god afstand."},
+                {"@type":"HowToStep","text":"Drys krydderier ovenpå og tryk evt. bunkerne let flade."}
+              ]
+            },
+            {
+              "@type":"HowToSection",
+              "name":"Ovn",
+              "itemListElement":[
+                {"@type":"HowToStep","text":"Forvarm ovnen til 200 °C varmluft."},
+                {"@type":"HowToStep","text":"Bag 6–9 minutter til gyldne og boblende."},
+                {"@type":"HowToStep","text":"Lad dem køle 2–4 minutter, så de bliver sprøde."}
+              ]
+            },
+            {
+              "@type":"HowToSection",
+              "name":"Airfryer",
+              "itemListElement":[
+                {"@type":"HowToStep","text":"Tilbered ved 190 °C i 4–7 minutter og tjek tidligt."},
+                {"@type":"HowToStep","text":"Lad dem køle 2–3 minutter i kurven, så de sætter sig."}
+              ]
+            }
+          ]
+        };
+
+        if (n) {
+          schema.nutrition = {
+            "@type":"NutritionInformation",
+            "calories": (n.calories != null ? String(n.calories) : "") + " kcal",
+            "proteinContent": (n.protein != null ? String(n.protein) : "") + " g",
+            "carbohydrateContent": (n.carbohydrates != null ? String(n.carbohydrates) : "") + " g",
+            "fatContent": (n.fat != null ? String(n.fat) : "") + " g"
+          };
+        }
+
+        if (schemaEl) schemaEl.textContent = JSON.stringify(schema);
+
+        // Related recipes
+        const relatedGrid = document.getElementById("relatedGrid");
+        if (relatedGrid) {
+          const currentCats = new Set(((recipe && recipe.categories) || []).map(x => String(x).toLowerCase()));
+          const currentTags = new Set(((recipe && recipe.tags) || []).map(x => String(x).toLowerCase()));
+
+          function score(item){
+            const cats = new Set((item.categories || []).map(x => String(x).toLowerCase()));
+            const tags = new Set((item.tags || []).map(x => String(x).toLowerCase()));
+            let s = 0;
+            currentCats.forEach(c => { if (cats.has(c)) s += 3; });
+            currentTags.forEach(t => { if (tags.has(t)) s += 2; });
+            return s;
+          }
+
+          const related = (list || [])
+            .filter(x => x && x.url && (!recipe || x.id !== recipe.id))
+            .map(x => ({...x, _score: score(x)}))
+            .filter(x => x._score > 0)
+            .sort((a,b) => b._score - a._score)
+            .slice(0, 3);
+
+          if (!related.length) {
+            relatedGrid.innerHTML = `
+              <div class="empty" style="grid-column:1/-1">
+                <h3>Ingen relaterede opskrifter endnu</h3>
+                <p class="muted">Tilføj 2–3 sunde snacks mere i opskrifter.json, så viser vi dem automatisk her.</p>
+              </div>
+            `;
+          } else {
+            relatedGrid.innerHTML = related.map(r => `
+              <article class="mini-card">
+                <a class="card-link" href="${r.url}">
+                  <div class="mini-thumb" style="background-image:url('${r.image || ""}')"></div>
+                  <div class="mini-body">
+                    <h3 class="mini-title">${r.title || "Opskrift"}</h3>
+                    <p class="mini-desc">${r.description || ""}</p>
+                  </div>
+                </a>
+              </article>
+            `).join("");
+          }
+        }
+      } catch (e) {
+        // fail silently
+      }
+
+      // Save button UI feedback – mirror site.js storage (aria-pressed -> red heart)
+      const saveBtn = document.querySelector("[data-save-recipe]");
+      const saveLabel = document.getElementById("saveLabel");
+
+      function syncSavedUI(){
+        if (!saveBtn) return;
+        const pressed = saveBtn.getAttribute("aria-pressed") === "true";
+        saveBtn.classList.toggle("is-saved", pressed);
+        if (saveLabel) saveLabel.textContent = pressed ? "Gemt" : "Gem opskrift";
+      }
+
+      setTimeout(syncSavedUI, 60);
+      document.addEventListener("ss:saved-updated", () => setTimeout(syncSavedUI, 0));
+
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest("[data-save-recipe]")) return;
+        setTimeout(syncSavedUI, 0);
+      });
     })();
   </script>
 </body>
