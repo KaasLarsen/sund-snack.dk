@@ -13,6 +13,12 @@
   <priority>0.9</priority>
   </url>
 
+<url>
+  <loc>https://www.sund-snack.dk/opskrifter/riskiks-med-peanutbutter-og-banan.html</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.9</priority>
+</url>
+
    <url>
   <loc>https://www.sund-snack.dk/opskrifter/skyr-med-baer-og-granola.html</loc>
   <changefreq>monthly</changefreq>
