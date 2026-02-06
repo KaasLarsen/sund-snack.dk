@@ -462,3 +462,13 @@
   setTimeout(updateSavedBadge, 400);
   setTimeout(updateSavedBadge, 1200);
 })();
+try {
+  (function () {
+    if (document.querySelector('link[rel="icon"]')) return;
+    const link = document.createElement("link");
+    link.rel = "icon";
+    link.href = "/favicon.ico";
+    link.type = "image/x-icon";
+    document.head.appendChild(link);
+  })();
+} catch (e) {}
