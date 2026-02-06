@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "aeble-nachos-med-peanutbutter-og-chokolade",
+  "title": "Æble-nachos med peanutbutter og chokolade",
+  "url": "/opskrifter/aeble-nachos-med-peanutbutter-og-chokolade.html",
+  "image": "/assets/images/recipes/aeble-nachos-med-peanutbutter-og-chokolade-768x768.jpg",
+  "description": "Æble-nachos med peanutbutter og chokolade – sund snack uden bagning klar på 5 minutter. Perfekt som sund dessert eller hyggesnack.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "uden bagning"
+  ],
+  "tags": [
+    "æble",
+    "peanutbutter",
+    "chokolade",
+    "sund dessert",
+    "hurtig snack"
+  ],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 230,
+    "protein": 6,
+    "carbohydrates": 24,
+    "fat": 12
+  }
+},
+  {
   "id": "skyr-med-baer-og-granola",
   "title": "Skyr med bær og granola",
   "url": "/opskrifter/skyr-med-baer-og-granola.html",
