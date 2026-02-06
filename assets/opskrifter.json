@@ -27,6 +27,24 @@
     }
   },
   {
+  "id": "sproede-ristede-kikaerter",
+  "title": "Sprøde ristede kikærter – sund snack med højt proteinindhold",
+  "url": "/opskrifter/sproede-ristede-kikaerter.html",
+  "image": "/assets/images/recipes/sproede-ristede-kikaerter-768.jpg",
+  "description": "Sprøde ristede kikærter er en nem og sund snack med højt proteinindhold. Kan laves i ovn eller airfryer. Inkl. tips, varianter og næringsindhold.",
+  "minutes": 25,
+  "servings": 2,
+  "level": "Nem",
+  "categories": ["snacks", "sund snack", "proteinrige snacks"],
+  "tags": ["kikaerter", "sprød snack", "salt snack", "protein", "airfryer", "ovn", "meal prep"],
+  "nutrition": {
+    "calories": 235,
+    "protein": 11,
+    "carbohydrates": 27,
+    "fat": 9
+  }
+},
+  {
   "id": "riskiks-med-peanutbutter-og-banan",
   "title": "Riskiks med peanutbutter og banan",
   "url": "/opskrifter/riskiks-med-peanutbutter-og-banan.html",
