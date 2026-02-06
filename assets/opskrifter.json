@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "dadler-med-peanutbutter-og-moerk-chokolade",
+  "title": "Dadler med peanutbutter og mørk chokolade",
+  "url": "/opskrifter/dadler-med-peanutbutter-og-moerk-chokolade.html",
+  "image": "/assets/images/recipes/dadler-med-peanutbutter-og-moerk-chokolade-768x768.jpg",
+  "description": "Dadler med peanutbutter og mørk chokolade – sund snack uden bagning der smager som dessert. Klar på 10 minutter og perfekt til fredagshygge.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "uden bagning"
+  ],
+  "tags": [
+    "dadler",
+    "peanutbutter",
+    "mørk chokolade",
+    "sund dessert",
+    "hurtig snack"
+  ],
+  "minutes": 10,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 190,
+    "protein": 4,
+    "carbohydrates": 20,
+    "fat": 10
+  }
+  },
+  {
   "id": "wrap-med-peanutbutter-og-banan",
   "title": "Wrap med peanutbutter og banan",
   "url": "/opskrifter/wrap-med-peanutbutter-og-banan.html",
