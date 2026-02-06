@@ -27,6 +27,33 @@
     }
   },
   {
+  "id": "skyr-med-baer-og-granola",
+  "title": "Skyr med bær og granola",
+  "url": "/opskrifter/skyr-med-baer-og-granola.html",
+  "image": "/assets/images/recipes/skyr-med-baer-og-granola-768x768.jpg",
+  "description": "Skyr med bær og granola – proteinrig sund snack på 5 minutter. Perfekt til morgenmad, efter træning eller som sund dessert.",
+  "categories": [
+    "snacks",
+    "sunde snacks",
+    "protein"
+  ],
+  "tags": [
+    "skyr",
+    "bær",
+    "granola",
+    "proteinrig",
+    "hurtig snack"
+  ],
+  "minutes": 5,
+  "level": "Nem",
+  "nutrition": {
+    "calories": 310,
+    "protein": 24,
+    "carbohydrates": 32,
+    "fat": 9
+  }
+},
+  {
   "id": "dadler-med-peanutbutter-og-moerk-chokolade",
   "title": "Dadler med peanutbutter og mørk chokolade",
   "url": "/opskrifter/dadler-med-peanutbutter-og-moerk-chokolade.html",
