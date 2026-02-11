@@ -926,3 +926,7 @@ code{
   border-color: rgba(22,163,74,.35);
   background: rgba(22,163,74,.10);
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
